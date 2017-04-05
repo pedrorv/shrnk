@@ -1,12 +1,14 @@
-const React = require('react')
+import React, { Component } from 'react'
 
-const Main = (props) => {
-    return (
-        <div>
-            <p>Main Component</p>
-            {props.children}
-        </div>
-    )
+class Main extends Component {
+    render() {
+        return (
+            <div>
+                <p>Main Component</p>
+                {this.props.children}
+            </div>
+        )
+    }
 }
 
-module.exports = Main
+export default Main

@@ -1,5 +1,5 @@
-const React = require('react')
-const { Link } = require('react-router')
+import React from 'react'
+import { Link } from 'react-router'
 
 const About = (props) => {
     return (
@@ -10,4 +10,4 @@ const About = (props) => {
     )
 }
 
-module.exports = About
+export default About

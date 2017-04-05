@@ -1,9 +1,9 @@
-const React = require('react')
-const ReactDOM = require('react-dom')
-const { Route, Router, IndexRoute, browserHistory } = require('react-router')
-const Main = require('Main')
-const Home = require('Home')
-const About = require('About')
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Route, Router, IndexRoute, browserHistory } from 'react-router'
+import Main from 'Main'
+import Home from 'Home'
+import About from 'About'
 
 require('./styles/app.scss')
 
