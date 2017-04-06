@@ -1,13 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router'
 
-const About = (props) => {
+const NotFound = (props) => {
     return (
         <div>
-            <p>About Component</p>
+            <p>Page not found.</p>
             <Link to={'/shrtr/'}>Home</Link>
         </div>
     )
 }
 
-export default About
+export default NotFound
