@@ -1,1 +1,1 @@
-// export * from './actionsFile'
+export * from './shrtrActions'
