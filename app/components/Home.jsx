@@ -1,13 +1,18 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Link } from 'react-router'
+import { connect } from 'react-redux'
 
-const Home = (props) => {
+class Home extends Component {
+  render() {
     return (
-        <div>
-            <p>Home Component</p>
-            <Link to={'/shrtr/about'}>About</Link>
-        </div>
+      <div>
+        <form>
+            <input type="text" placeholder="Enter the link you want to shorten" />
+            <input type="submit" value="Make it shrtr!" />
+        </form>
+      </div>
     )
+  }
 }
 
-export default Home
+export default connect()(Home)
