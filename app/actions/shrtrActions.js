@@ -5,7 +5,7 @@ import {
 } from './types'
 
 import firebase from 'firebase'
-import uid from 'uid' 
+import { generateID } from '../utils' 
 
 export const shortenLink = (link) => {
   return (dispatch) => {
@@ -14,7 +14,7 @@ export const shortenLink = (link) => {
     const linksRef = firebase.database().ref('links')
     const newLinkRef = linksRef.push()
     const newLink = {
-      id: uid(6),
+      id: generateID(6),
       link,
       access_count: 0
     }

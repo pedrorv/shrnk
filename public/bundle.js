@@ -72,11 +72,11 @@
 
 	var _Shrtr2 = _interopRequireDefault(_Shrtr);
 
-	var _NotFound = __webpack_require__(281);
+	var _NotFound = __webpack_require__(282);
 
 	var _NotFound2 = _interopRequireDefault(_NotFound);
 
-	var _reducers = __webpack_require__(282);
+	var _reducers = __webpack_require__(283);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -84,7 +84,7 @@
 
 	var store = (0, _redux.createStore)(_reducers2.default, {}, (0, _redux.applyMiddleware)(_reduxThunk2.default));
 
-	__webpack_require__(284);
+	__webpack_require__(285);
 
 	_reactDom2.default.render(_react2.default.createElement(
 	  _reactRedux.Provider,
@@ -29624,9 +29624,7 @@
 
 	var _firebase2 = _interopRequireDefault(_firebase);
 
-	var _uid = __webpack_require__(280);
-
-	var _uid2 = _interopRequireDefault(_uid);
+	var _utils = __webpack_require__(280);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29637,7 +29635,7 @@
 	    var linksRef = _firebase2.default.database().ref('links');
 	    var newLinkRef = linksRef.push();
 	    var newLink = {
-	      id: (0, _uid2.default)(6),
+	      id: (0, _utils.generateID)(6),
 	      link: link,
 	      access_count: 0
 	    };
@@ -29673,6 +29671,31 @@
 
 /***/ },
 /* 280 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.generateID = undefined;
+
+	var _uid = __webpack_require__(281);
+
+	var _uid2 = _interopRequireDefault(_uid);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var generateID = exports.generateID = function generateID(length) {
+	  var id = (0, _uid2.default)(length).split('').map(function (char) {
+	    return Math.floor(Math.random() * 2) ? char.toUpperCase() : char;
+	  });
+
+	  return id.join('');
+	};
+
+/***/ },
+/* 281 */
 /***/ function(module, exports) {
 
 	/**
@@ -29695,7 +29718,7 @@
 
 
 /***/ },
-/* 281 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29732,7 +29755,7 @@
 	exports.default = NotFound;
 
 /***/ },
-/* 282 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29743,7 +29766,7 @@
 
 	var _redux = __webpack_require__(233);
 
-	var _shrtrReducer = __webpack_require__(283);
+	var _shrtrReducer = __webpack_require__(284);
 
 	var _shrtrReducer2 = _interopRequireDefault(_shrtrReducer);
 
@@ -29754,7 +29777,7 @@
 	});
 
 /***/ },
-/* 283 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29791,16 +29814,16 @@
 	};
 
 /***/ },
-/* 284 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(285);
+	var content = __webpack_require__(286);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(287)(content, {});
+	var update = __webpack_require__(288)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -29817,10 +29840,10 @@
 	}
 
 /***/ },
-/* 285 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(286)();
+	exports = module.exports = __webpack_require__(287)();
 	// imports
 
 
@@ -29831,7 +29854,7 @@
 
 
 /***/ },
-/* 286 */
+/* 287 */
 /***/ function(module, exports) {
 
 	/*
@@ -29887,7 +29910,7 @@
 
 
 /***/ },
-/* 287 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
