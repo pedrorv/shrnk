@@ -12,6 +12,14 @@ class Shrtr extends Component {
     this.props.shortenLink(linkUrl)
   }
 
+  renderButton() {
+    if (this.props.loading) {
+      return <p>Loading...</p>
+    }
+
+    return <input type="submit" value="Make it shrtr!" />
+  }
+
   render() {
     return (
       <div>
@@ -22,7 +30,7 @@ class Shrtr extends Component {
               ref="link"
               required
             />
-            <input type="submit" value="Make it shrtr!" />
+            {this.renderButton()}
         </form>
       </div>
     )

@@ -68,15 +68,15 @@
 
 	var _Main2 = _interopRequireDefault(_Main);
 
-	var _Shrtr = __webpack_require__(285);
+	var _Shrtr = __webpack_require__(277);
 
 	var _Shrtr2 = _interopRequireDefault(_Shrtr);
 
-	var _NotFound = __webpack_require__(277);
+	var _NotFound = __webpack_require__(281);
 
 	var _NotFound2 = _interopRequireDefault(_NotFound);
 
-	var _reducers = __webpack_require__(278);
+	var _reducers = __webpack_require__(282);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -84,7 +84,7 @@
 
 	var store = (0, _redux.createStore)(_reducers2.default, {}, (0, _redux.applyMiddleware)(_reduxThunk2.default));
 
-	__webpack_require__(281);
+	__webpack_require__(284);
 
 	_reactDom2.default.render(_react2.default.createElement(
 	  _reactRedux.Provider,
@@ -29516,6 +29516,191 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(178);
+
+	var _reactRedux = __webpack_require__(254);
+
+	var _shrtrActions = __webpack_require__(278);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Shrtr = function (_Component) {
+	  _inherits(Shrtr, _Component);
+
+	  function Shrtr() {
+	    _classCallCheck(this, Shrtr);
+
+	    return _possibleConstructorReturn(this, (Shrtr.__proto__ || Object.getPrototypeOf(Shrtr)).apply(this, arguments));
+	  }
+
+	  _createClass(Shrtr, [{
+	    key: 'handleSubmit',
+	    value: function handleSubmit(e) {
+	      e.preventDefault();
+	      var linkUrl = this.refs.link.value;
+
+	      this.props.shortenLink(linkUrl);
+	    }
+	  }, {
+	    key: 'renderButton',
+	    value: function renderButton() {
+	      if (this.props.loading) {
+	        return _react2.default.createElement(
+	          'p',
+	          null,
+	          'Loading...'
+	        );
+	      }
+
+	      return _react2.default.createElement('input', { type: 'submit', value: 'Make it shrtr!' });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'form',
+	          { onSubmit: this.handleSubmit.bind(this) },
+	          _react2.default.createElement('input', {
+	            type: 'text',
+	            placeholder: 'Enter the link you want to shorten',
+	            ref: 'link',
+	            required: true
+	          }),
+	          this.renderButton()
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Shrtr;
+	}(_react.Component);
+
+	var mapStateToProps = function mapStateToProps(state) {
+	  var _state$shrtr = state.shrtr,
+	      error = _state$shrtr.error,
+	      loading = _state$shrtr.loading,
+	      shrtrLink = _state$shrtr.shrtrLink;
+
+
+	  return { error: error, loading: loading, shrtrLink: shrtrLink };
+	};
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, {
+	  shortenLink: _shrtrActions.shortenLink
+	})(Shrtr);
+
+/***/ },
+/* 278 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.shortenLink = undefined;
+
+	var _types = __webpack_require__(279);
+
+	var _firebase = __webpack_require__(271);
+
+	var _firebase2 = _interopRequireDefault(_firebase);
+
+	var _uid = __webpack_require__(280);
+
+	var _uid2 = _interopRequireDefault(_uid);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var shortenLink = exports.shortenLink = function shortenLink(link) {
+	  return function (dispatch) {
+	    dispatch({ type: _types.SHRTR_LINK_SUBMIT_PENDING });
+
+	    var linksRef = _firebase2.default.database().ref('links');
+	    var newLinkRef = linksRef.push();
+	    var newLink = {
+	      id: (0, _uid2.default)(6),
+	      link: link,
+	      access_count: 0
+	    };
+
+	    newLinkRef.set(newLink).then(function () {
+	      return shortenLinkSuccess(dispatch, newLink);
+	    }).catch(function () {
+	      return shortenLinkFail(dispatch);
+	    });
+	  };
+	};
+
+	var shortenLinkFail = function shortenLinkFail(dispatch) {
+	  dispatch({ type: _types.SHRTR_LINK_SUBMIT_FAILED, payload: 'Unable to shorten link.' });
+	};
+
+	var shortenLinkSuccess = function shortenLinkSuccess(dispatch, shrtrLink) {
+	  dispatch({ type: _types.SHRTR_LINK_SUBMIT_SUCCESS, payload: shrtrLink });
+	};
+
+/***/ },
+/* 279 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var SHRTR_LINK_SUBMIT_PENDING = exports.SHRTR_LINK_SUBMIT_PENDING = 'SHRTR_LINK_SUBMIT_PENDING';
+	var SHRTR_LINK_SUBMIT_SUCCESS = exports.SHRTR_LINK_SUBMIT_SUCCESS = 'SHRTR_LINK_SUBIMT_SUCCESS';
+	var SHRTR_LINK_SUBMIT_FAILED = exports.SHRTR_LINK_SUBMIT_FAILED = 'SHRTR_LINK_SUBMIT_FAILED';
+
+/***/ },
+/* 280 */
+/***/ function(module, exports) {
+
+	/**
+	 * Export `uid`
+	 */
+
+	module.exports = uid;
+
+	/**
+	 * Create a `uid`
+	 *
+	 * @param {String} len
+	 * @return {String} uid
+	 */
+
+	function uid(len) {
+	  len = len || 7;
+	  return Math.random().toString(35).substr(2, len);
+	}
+
+
+/***/ },
+/* 281 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 
@@ -29547,7 +29732,7 @@
 	exports.default = NotFound;
 
 /***/ },
-/* 278 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29558,7 +29743,7 @@
 
 	var _redux = __webpack_require__(233);
 
-	var _shrtrReducer = __webpack_require__(279);
+	var _shrtrReducer = __webpack_require__(283);
 
 	var _shrtrReducer2 = _interopRequireDefault(_shrtrReducer);
 
@@ -29569,7 +29754,7 @@
 	});
 
 /***/ },
-/* 279 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29580,7 +29765,7 @@
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _types = __webpack_require__(280);
+	var _types = __webpack_require__(279);
 
 	var INITIAL_STATE = {
 	  link: '',
@@ -29598,7 +29783,7 @@
 	      return _extends({}, state, { error: '', loading: true });
 	    case _types.SHRTR_LINK_SUBMIT_SUCCESS:
 	      return _extends({}, state, INITIAL_STATE, { shrtrLink: action.payload });
-	    case _types.SHRTR_LINK_SUBIMT_FAILED:
+	    case _types.SHRTR_LINK_SUBMIT_FAILED:
 	      return _extends({}, state, INITIAL_STATE, { error: action.payload });
 	    default:
 	      return state;
@@ -29606,29 +29791,16 @@
 	};
 
 /***/ },
-/* 280 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var SHRTR_LINK_SUBMIT_PENDING = exports.SHRTR_LINK_SUBMIT_PENDING = 'SHRTR_LINK_SUBMIT_PENDING';
-	var SHRTR_LINK_SUBMIT_SUCCESS = exports.SHRTR_LINK_SUBMIT_SUCCESS = 'SHRTR_LINK_SUBIMT_SUCCESS';
-	var SHRTR_LINK_SUBIMT_FAILED = exports.SHRTR_LINK_SUBIMT_FAILED = 'SHRTR_LINK_SUBMIT_FAILED';
-
-/***/ },
-/* 281 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(282);
+	var content = __webpack_require__(285);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(284)(content, {});
+	var update = __webpack_require__(287)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -29645,10 +29817,10 @@
 	}
 
 /***/ },
-/* 282 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(283)();
+	exports = module.exports = __webpack_require__(286)();
 	// imports
 
 
@@ -29659,7 +29831,7 @@
 
 
 /***/ },
-/* 283 */
+/* 286 */
 /***/ function(module, exports) {
 
 	/*
@@ -29715,7 +29887,7 @@
 
 
 /***/ },
-/* 284 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -29963,222 +30135,6 @@
 
 		if(oldSrc)
 			URL.revokeObjectURL(oldSrc);
-	}
-
-
-/***/ },
-/* 285 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactRouter = __webpack_require__(178);
-
-	var _reactRedux = __webpack_require__(254);
-
-	var _shrtrActions = __webpack_require__(286);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Shrtr = function (_Component) {
-	  _inherits(Shrtr, _Component);
-
-	  function Shrtr() {
-	    _classCallCheck(this, Shrtr);
-
-	    return _possibleConstructorReturn(this, (Shrtr.__proto__ || Object.getPrototypeOf(Shrtr)).apply(this, arguments));
-	  }
-
-	  _createClass(Shrtr, [{
-	    key: 'handleSubmit',
-	    value: function handleSubmit(e) {
-	      e.preventDefault();
-	      var linkUrl = this.refs.link.value;
-
-	      this.props.shortenLink(linkUrl);
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(
-	          'form',
-	          { onSubmit: this.handleSubmit.bind(this) },
-	          _react2.default.createElement('input', {
-	            type: 'text',
-	            placeholder: 'Enter the link you want to shorten',
-	            ref: 'link',
-	            required: true
-	          }),
-	          _react2.default.createElement('input', { type: 'submit', value: 'Make it shrtr!' })
-	        )
-	      );
-	    }
-	  }]);
-
-	  return Shrtr;
-	}(_react.Component);
-
-	var mapStateToProps = function mapStateToProps(state) {
-	  var _state$shrtr = state.shrtr,
-	      error = _state$shrtr.error,
-	      loading = _state$shrtr.loading,
-	      shrtrLink = _state$shrtr.shrtrLink;
-
-
-	  return { error: error, loading: loading, shrtrLink: shrtrLink };
-	};
-
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, {
-	  shortenLink: _shrtrActions.shortenLink
-	})(Shrtr);
-
-/***/ },
-/* 286 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.shortenLink = undefined;
-
-	var _types = __webpack_require__(280);
-
-	var _firebase = __webpack_require__(271);
-
-	var _firebase2 = _interopRequireDefault(_firebase);
-
-	var _uid = __webpack_require__(346);
-
-	var _uid2 = _interopRequireDefault(_uid);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var shortenLink = exports.shortenLink = function shortenLink(link) {
-	  return function (dispatch) {
-	    var linksRef = _firebase2.default.database().ref('links');
-	    var newLinkRef = linksRef.push();
-
-	    var newLinkID = (0, _uid2.default)(6);
-	    newLinkRef.set({
-	      link: link,
-	      id: newLinkID,
-	      access_count: 0
-	    }).then(function (link) {
-	      return console.log(link);
-	    }).catch(function (error) {
-	      return console.log(error);
-	    });
-	  };
-	};
-
-	var shortenLinkFail = function shortenLinkFail(dispatch) {
-	  dispatch({ type: _types.SHRTR_LINK_SUBIMT_FAILED });
-	};
-
-	var shortenLinkSuccess = function shortenLinkSuccess(dispatch, shrtrLink) {
-	  dispatch({ type: _types.SHRTR_LINK_SUBMIT_SUCCESS, payload: shrtrLink });
-	};
-
-/***/ },
-/* 287 */,
-/* 288 */,
-/* 289 */,
-/* 290 */,
-/* 291 */,
-/* 292 */,
-/* 293 */,
-/* 294 */,
-/* 295 */,
-/* 296 */,
-/* 297 */,
-/* 298 */,
-/* 299 */,
-/* 300 */,
-/* 301 */,
-/* 302 */,
-/* 303 */,
-/* 304 */,
-/* 305 */,
-/* 306 */,
-/* 307 */,
-/* 308 */,
-/* 309 */,
-/* 310 */,
-/* 311 */,
-/* 312 */,
-/* 313 */,
-/* 314 */,
-/* 315 */,
-/* 316 */,
-/* 317 */,
-/* 318 */,
-/* 319 */,
-/* 320 */,
-/* 321 */,
-/* 322 */,
-/* 323 */,
-/* 324 */,
-/* 325 */,
-/* 326 */,
-/* 327 */,
-/* 328 */,
-/* 329 */,
-/* 330 */,
-/* 331 */,
-/* 332 */,
-/* 333 */,
-/* 334 */,
-/* 335 */,
-/* 336 */,
-/* 337 */,
-/* 338 */,
-/* 339 */,
-/* 340 */,
-/* 341 */,
-/* 342 */,
-/* 343 */,
-/* 344 */,
-/* 345 */,
-/* 346 */
-/***/ function(module, exports) {
-
-	/**
-	 * Export `uid`
-	 */
-
-	module.exports = uid;
-
-	/**
-	 * Create a `uid`
-	 *
-	 * @param {String} len
-	 * @return {String} uid
-	 */
-
-	function uid(len) {
-	  len = len || 7;
-	  return Math.random().toString(35).substr(2, len);
 	}
 
 

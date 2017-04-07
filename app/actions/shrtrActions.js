@@ -1,7 +1,7 @@
 import {
   SHRTR_LINK_SUBMIT_PENDING,
   SHRTR_LINK_SUBMIT_SUCCESS,
-  SHRTR_LINK_SUBIMT_FAILED
+  SHRTR_LINK_SUBMIT_FAILED
 } from './types'
 
 import firebase from 'firebase'
@@ -9,22 +9,25 @@ import uid from 'uid'
 
 export const shortenLink = (link) => {
   return (dispatch) => {
+    dispatch({ type: SHRTR_LINK_SUBMIT_PENDING })
+
     const linksRef = firebase.database().ref('links')
     const newLinkRef = linksRef.push()
-
-    const newLinkID = uid(6)
-    newLinkRef.set({
+    const newLink = {
+      id: uid(6),
       link,
-      id: newLinkID,
       access_count: 0
-    })
-    .then(link => console.log(link))
-    .catch(error => console.log(error))
+    }
+
+    newLinkRef
+      .set(newLink)
+      .then(() => shortenLinkSuccess(dispatch, newLink))
+      .catch(() => shortenLinkFail(dispatch))
   }
 }
 
 const shortenLinkFail = (dispatch) => {
-  dispatch({ type: SHRTR_LINK_SUBIMT_FAILED })
+  dispatch({ type: SHRTR_LINK_SUBMIT_FAILED, payload: 'Unable to shorten link.' })
 }
 
 const shortenLinkSuccess = (dispatch, shrtrLink) => {
