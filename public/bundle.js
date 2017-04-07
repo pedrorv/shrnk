@@ -29986,6 +29986,8 @@
 
 	var _reactRedux = __webpack_require__(254);
 
+	var _shrtrActions = __webpack_require__(286);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -30005,7 +30007,12 @@
 
 	  _createClass(Shrtr, [{
 	    key: 'handleSubmit',
-	    value: function handleSubmit(e) {}
+	    value: function handleSubmit(e) {
+	      e.preventDefault();
+	      var linkUrl = this.refs.link.value;
+
+	      this.props.shortenLink(linkUrl);
+	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
@@ -30040,7 +30047,140 @@
 	  return { error: error, loading: loading, shrtrLink: shrtrLink };
 	};
 
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, {})(Shrtr);
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, {
+	  shortenLink: _shrtrActions.shortenLink
+	})(Shrtr);
+
+/***/ },
+/* 286 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.shortenLink = undefined;
+
+	var _types = __webpack_require__(280);
+
+	var _firebase = __webpack_require__(271);
+
+	var _firebase2 = _interopRequireDefault(_firebase);
+
+	var _uid = __webpack_require__(346);
+
+	var _uid2 = _interopRequireDefault(_uid);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var shortenLink = exports.shortenLink = function shortenLink(link) {
+	  return function (dispatch) {
+	    var linksRef = _firebase2.default.database().ref('links');
+	    var newLinkRef = linksRef.push();
+
+	    var newLinkID = (0, _uid2.default)(6);
+	    newLinkRef.set({
+	      link: link,
+	      id: newLinkID,
+	      access_count: 0
+	    }).then(function (link) {
+	      return console.log(link);
+	    }).catch(function (error) {
+	      return console.log(error);
+	    });
+	  };
+	};
+
+	var shortenLinkFail = function shortenLinkFail(dispatch) {
+	  dispatch({ type: _types.SHRTR_LINK_SUBIMT_FAILED });
+	};
+
+	var shortenLinkSuccess = function shortenLinkSuccess(dispatch, shrtrLink) {
+	  dispatch({ type: _types.SHRTR_LINK_SUBMIT_SUCCESS, payload: shrtrLink });
+	};
+
+/***/ },
+/* 287 */,
+/* 288 */,
+/* 289 */,
+/* 290 */,
+/* 291 */,
+/* 292 */,
+/* 293 */,
+/* 294 */,
+/* 295 */,
+/* 296 */,
+/* 297 */,
+/* 298 */,
+/* 299 */,
+/* 300 */,
+/* 301 */,
+/* 302 */,
+/* 303 */,
+/* 304 */,
+/* 305 */,
+/* 306 */,
+/* 307 */,
+/* 308 */,
+/* 309 */,
+/* 310 */,
+/* 311 */,
+/* 312 */,
+/* 313 */,
+/* 314 */,
+/* 315 */,
+/* 316 */,
+/* 317 */,
+/* 318 */,
+/* 319 */,
+/* 320 */,
+/* 321 */,
+/* 322 */,
+/* 323 */,
+/* 324 */,
+/* 325 */,
+/* 326 */,
+/* 327 */,
+/* 328 */,
+/* 329 */,
+/* 330 */,
+/* 331 */,
+/* 332 */,
+/* 333 */,
+/* 334 */,
+/* 335 */,
+/* 336 */,
+/* 337 */,
+/* 338 */,
+/* 339 */,
+/* 340 */,
+/* 341 */,
+/* 342 */,
+/* 343 */,
+/* 344 */,
+/* 345 */,
+/* 346 */
+/***/ function(module, exports) {
+
+	/**
+	 * Export `uid`
+	 */
+
+	module.exports = uid;
+
+	/**
+	 * Create a `uid`
+	 *
+	 * @param {String} len
+	 * @return {String} uid
+	 */
+
+	function uid(len) {
+	  len = len || 7;
+	  return Math.random().toString(35).substr(2, len);
+	}
+
 
 /***/ }
 /******/ ]);
