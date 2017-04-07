@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import ReduxThunk from 'redux-thunk'
 
 import Main from 'Main'
-import Home from 'Home'
+import Shrtr from 'Shrtr'
 import NotFound from 'NotFound'
 import reducers from './reducers'
 
@@ -20,7 +20,7 @@ ReactDOM.render(
     <Router history={browserHistory}>
       <Route path="/shrtr" component={Main}>
         <Route path="not-found" component={NotFound} />
-        <IndexRoute component={Home} />
+        <IndexRoute component={Shrtr} />
       </Route>
     </Router>
   </Provider>,

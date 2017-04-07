@@ -1,5 +1,4 @@
 import {
-  SHRTR_LINK_CHANGED,
   SHRTR_LINK_SUBMIT_PENDING,
   SHRTR_LINK_SUBMIT_SUCCESS,
   SHRTR_LINK_SUBIMT_FAILED
@@ -14,8 +13,6 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case SHRTR_LINK_CHANGED:
-      return { ...state, link: action.payload }
     case SHRTR_LINK_SUBMIT_PENDING:
       return { ...state, error: '', loading: true }
     case SHRTR_LINK_SUBMIT_SUCCESS:
