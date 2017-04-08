@@ -7,6 +7,8 @@ export const getLinkInfo = (id) => {
           .equalTo(id)
           .once('value')
           .then(data => {
+            if (!data.val()) return Promise.reject('This link doesn\'t exist.')
+
             let val = data.val()
             let keys = Object.keys(val)
 

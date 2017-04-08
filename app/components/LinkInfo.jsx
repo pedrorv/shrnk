@@ -7,23 +7,29 @@ class LinkInfo extends Component {
   constructor(props) {
     super(props)
 
-    this.state = { linkInfo: null }
+    this.state = { linkInfo: null, error: '', loading: true }
   }
 
   componentDidMount() {
     getLinkInfo(this.props.params.id)
       .then(data => {
-        this.setState({ linkInfo: data.linkInfo })
+        this.setState({ linkInfo: data.linkInfo, loading: false })
         updateLinkAccessCount(data.key)
       })
+      .catch(error => this.setState({ error, loading: false }))
   }
 
   renderLinkInfo() {
-    if (this.state.linkInfo) {
-      return <p>{this.state.linkInfo.link}</p>
+    const { loading, error, linkInfo } = this.state
+
+    if (loading) {
+      return <p>Loading...</p>
+    }
+    if (error) {
+      return <p>{error}</p>
     }
 
-    return <div></div>
+    return <p>{this.state.linkInfo.link}</p>
   }
   
   render() {

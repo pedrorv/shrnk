@@ -29830,7 +29830,7 @@
 
 	    var _this = _possibleConstructorReturn(this, (LinkInfo.__proto__ || Object.getPrototypeOf(LinkInfo)).call(this, props));
 
-	    _this.state = { linkInfo: null };
+	    _this.state = { linkInfo: null, error: '', loading: true };
 	    return _this;
 	  }
 
@@ -29840,22 +29840,41 @@
 	      var _this2 = this;
 
 	      (0, _api.getLinkInfo)(this.props.params.id).then(function (data) {
-	        _this2.setState({ linkInfo: data.linkInfo });
+	        _this2.setState({ linkInfo: data.linkInfo, loading: false });
 	        (0, _api.updateLinkAccessCount)(data.key);
+	      }).catch(function (error) {
+	        return _this2.setState({ error: error, loading: false });
 	      });
 	    }
 	  }, {
 	    key: 'renderLinkInfo',
 	    value: function renderLinkInfo() {
-	      if (this.state.linkInfo) {
+	      var _state = this.state,
+	          loading = _state.loading,
+	          error = _state.error,
+	          linkInfo = _state.linkInfo;
+
+
+	      if (loading) {
 	        return _react2.default.createElement(
 	          'p',
 	          null,
-	          this.state.linkInfo.link
+	          'Loading...'
+	        );
+	      }
+	      if (error) {
+	        return _react2.default.createElement(
+	          'p',
+	          null,
+	          error
 	        );
 	      }
 
-	      return _react2.default.createElement('div', null);
+	      return _react2.default.createElement(
+	        'p',
+	        null,
+	        this.state.linkInfo.link
+	      );
 	    }
 	  }, {
 	    key: 'render',
@@ -30299,6 +30318,8 @@
 
 	var getLinkInfo = exports.getLinkInfo = function getLinkInfo(id) {
 	  return _firebase2.default.database().ref('links').orderByChild('id').equalTo(id).once('value').then(function (data) {
+	    if (!data.val()) return Promise.reject('This link doesn\'t exist.');
+
 	    var val = data.val();
 	    var keys = Object.keys(val);
 
