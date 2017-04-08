@@ -20,6 +20,20 @@ class Shrtr extends Component {
     return <input type="submit" value="Make it shrtr!" />
   }
 
+  renderShrtrLink() {
+    if (this.props.shrtrLink) {
+      return (
+        <div>
+          <p>Key: {this.props.shrtrLink.id}</p>
+          <p>Link: {this.props.shrtrLink.link}</p>
+          <p>Access Count: {this.props.shrtrLink.access_count}</p>
+        </div>
+      )
+    }
+
+    return <div></div>
+  }
+
   render() {
     return (
       <div>
@@ -31,6 +45,7 @@ class Shrtr extends Component {
               required
             />
             {this.renderButton()}
+            {this.renderShrtrLink()}
         </form>
       </div>
     )

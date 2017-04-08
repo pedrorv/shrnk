@@ -76,7 +76,11 @@
 
 	var _NotFound2 = _interopRequireDefault(_NotFound);
 
-	var _reducers = __webpack_require__(283);
+	var _LinkInfo = __webpack_require__(283);
+
+	var _LinkInfo2 = _interopRequireDefault(_LinkInfo);
+
+	var _reducers = __webpack_require__(284);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -84,7 +88,7 @@
 
 	var store = (0, _redux.createStore)(_reducers2.default, {}, (0, _redux.applyMiddleware)(_reduxThunk2.default));
 
-	__webpack_require__(285);
+	__webpack_require__(286);
 
 	_reactDom2.default.render(_react2.default.createElement(
 	  _reactRedux.Provider,
@@ -96,6 +100,7 @@
 	      _reactRouter.Route,
 	      { path: '/shrtr', component: _Main2.default },
 	      _react2.default.createElement(_reactRouter.Route, { path: 'not-found', component: _NotFound2.default }),
+	      _react2.default.createElement(_reactRouter.Router, { path: ':id', component: _LinkInfo2.default }),
 	      _react2.default.createElement(_reactRouter.IndexRoute, { component: _Shrtr2.default })
 	    )
 	  )
@@ -28792,12 +28797,7 @@
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
-	                null,
-	                _react2.default.createElement(
-	                    'p',
-	                    null,
-	                    'Main Component'
-	                ),
+	                { style: style },
 	                this.props.children
 	            );
 	        }
@@ -28805,6 +28805,13 @@
 
 	    return Main;
 	}(_react.Component);
+
+	var style = {
+	    display: 'flex',
+	    flexDirection: 'row',
+	    justifyContent: 'center',
+	    padding: 20
+	};
 
 	exports.default = Main;
 
@@ -29570,6 +29577,36 @@
 	      return _react2.default.createElement('input', { type: 'submit', value: 'Make it shrtr!' });
 	    }
 	  }, {
+	    key: 'renderShrtrLink',
+	    value: function renderShrtrLink() {
+	      if (this.props.shrtrLink) {
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Key: ',
+	            this.props.shrtrLink.id
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Link: ',
+	            this.props.shrtrLink.link
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Access Count: ',
+	            this.props.shrtrLink.access_count
+	          )
+	        );
+	      }
+
+	      return _react2.default.createElement('div', null);
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -29584,7 +29621,8 @@
 	            ref: 'link',
 	            required: true
 	          }),
-	          this.renderButton()
+	          this.renderButton(),
+	          this.renderShrtrLink()
 	        )
 	      );
 	    }
@@ -29764,9 +29802,91 @@
 	  value: true
 	});
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _firebase = __webpack_require__(271);
+
+	var _firebase2 = _interopRequireDefault(_firebase);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var LinkInfo = function (_Component) {
+	  _inherits(LinkInfo, _Component);
+
+	  function LinkInfo(props) {
+	    _classCallCheck(this, LinkInfo);
+
+	    var _this = _possibleConstructorReturn(this, (LinkInfo.__proto__ || Object.getPrototypeOf(LinkInfo)).call(this, props));
+
+	    _this.state = { linkInfo: null };
+	    return _this;
+	  }
+
+	  _createClass(LinkInfo, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+
+	      _firebase2.default.database().ref('links').orderByChild('id').equalTo(this.props.params.id).once('value').then(function (data) {
+	        var val = data.val();
+	        var keys = Object.keys(val);
+
+	        _this2.setState({ linkInfo: val[keys[0]] });
+	      });
+	    }
+	  }, {
+	    key: 'renderLinkInfo',
+	    value: function renderLinkInfo() {
+	      if (this.state.linkInfo) {
+	        console.log(this.state);
+	        return _react2.default.createElement(
+	          'p',
+	          null,
+	          this.state.linkInfo.link
+	        );
+	      }
+
+	      return _react2.default.createElement('div', null);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        this.renderLinkInfo()
+	      );
+	    }
+	  }]);
+
+	  return LinkInfo;
+	}(_react.Component);
+
+	exports.default = LinkInfo;
+
+/***/ },
+/* 284 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
 	var _redux = __webpack_require__(233);
 
-	var _shrtrReducer = __webpack_require__(284);
+	var _shrtrReducer = __webpack_require__(285);
 
 	var _shrtrReducer2 = _interopRequireDefault(_shrtrReducer);
 
@@ -29777,7 +29897,7 @@
 	});
 
 /***/ },
-/* 284 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29814,16 +29934,16 @@
 	};
 
 /***/ },
-/* 285 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(286);
+	var content = __webpack_require__(287);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(288)(content, {});
+	var update = __webpack_require__(289)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -29840,10 +29960,10 @@
 	}
 
 /***/ },
-/* 286 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(287)();
+	exports = module.exports = __webpack_require__(288)();
 	// imports
 
 
@@ -29854,7 +29974,7 @@
 
 
 /***/ },
-/* 287 */
+/* 288 */
 /***/ function(module, exports) {
 
 	/*
@@ -29910,7 +30030,7 @@
 
 
 /***/ },
-/* 288 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*

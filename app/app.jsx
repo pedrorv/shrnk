@@ -8,6 +8,8 @@ import ReduxThunk from 'redux-thunk'
 import Main from 'Main'
 import Shrtr from 'Shrtr'
 import NotFound from 'NotFound'
+import LinkInfo from 'LinkInfo'
+
 import reducers from './reducers'
 
 const store = createStore(reducers, {}, applyMiddleware(ReduxThunk))
@@ -20,6 +22,7 @@ ReactDOM.render(
     <Router history={browserHistory}>
       <Route path="/shrtr" component={Main}>
         <Route path="not-found" component={NotFound} />
+        <Router path=":id" component={LinkInfo} />
         <IndexRoute component={Shrtr} />
       </Route>
     </Router>

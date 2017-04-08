@@ -16,12 +16,18 @@ class Main extends Component {
 
     render() {
         return (
-            <div>
-                <p>Main Component</p>
+            <div style={style}>
                 {this.props.children}
             </div>
         )
     }
+}
+
+const style = {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: 20,
 }
 
 export default Main
