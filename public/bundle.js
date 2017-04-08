@@ -29812,6 +29812,8 @@
 
 	var _firebase2 = _interopRequireDefault(_firebase);
 
+	var _reactRouter = __webpack_require__(178);
+
 	var _api = __webpack_require__(290);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -29830,7 +29832,7 @@
 
 	    var _this = _possibleConstructorReturn(this, (LinkInfo.__proto__ || Object.getPrototypeOf(LinkInfo)).call(this, props));
 
-	    _this.state = { linkInfo: null, error: '', loading: true };
+	    _this.state = { linkInfo: null, loading: true };
 	    return _this;
 	  }
 
@@ -29842,8 +29844,8 @@
 	      (0, _api.getLinkInfo)(this.props.params.id).then(function (data) {
 	        _this2.setState({ linkInfo: data.linkInfo, loading: false });
 	        (0, _api.updateLinkAccessCount)(data.key);
-	      }).catch(function (error) {
-	        return _this2.setState({ error: error, loading: false });
+	      }).catch(function () {
+	        return _reactRouter.browserHistory.push('/shrtr/not-found');
 	      });
 	    }
 	  }, {
@@ -29851,7 +29853,6 @@
 	    value: function renderLinkInfo() {
 	      var _state = this.state,
 	          loading = _state.loading,
-	          error = _state.error,
 	          linkInfo = _state.linkInfo;
 
 
@@ -29860,13 +29861,6 @@
 	          'p',
 	          null,
 	          'Loading...'
-	        );
-	      }
-	      if (error) {
-	        return _react2.default.createElement(
-	          'p',
-	          null,
-	          error
 	        );
 	      }
 
@@ -30318,7 +30312,7 @@
 
 	var getLinkInfo = exports.getLinkInfo = function getLinkInfo(id) {
 	  return _firebase2.default.database().ref('links').orderByChild('id').equalTo(id).once('value').then(function (data) {
-	    if (!data.val()) return Promise.reject('This link doesn\'t exist.');
+	    if (!data.val()) return Promise.reject();
 
 	    var val = data.val();
 	    var keys = Object.keys(val);
