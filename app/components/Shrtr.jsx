@@ -46,6 +46,7 @@ class Shrtr extends Component {
             />
             {this.renderButton()}
             {this.renderShrtrLink()}
+            {this.props.error ? this.props.error : ''}
         </form>
       </div>
     )

@@ -72,15 +72,15 @@
 
 	var _Shrtr2 = _interopRequireDefault(_Shrtr);
 
-	var _NotFound = __webpack_require__(282);
+	var _NotFound = __webpack_require__(283);
 
 	var _NotFound2 = _interopRequireDefault(_NotFound);
 
-	var _LinkInfo = __webpack_require__(283);
+	var _LinkInfo = __webpack_require__(284);
 
 	var _LinkInfo2 = _interopRequireDefault(_LinkInfo);
 
-	var _reducers = __webpack_require__(284);
+	var _reducers = __webpack_require__(285);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -88,7 +88,7 @@
 
 	var store = (0, _redux.createStore)(_reducers2.default, {}, (0, _redux.applyMiddleware)(_reduxThunk2.default));
 
-	__webpack_require__(286);
+	__webpack_require__(287);
 
 	_reactDom2.default.render(_react2.default.createElement(
 	  _reactRedux.Provider,
@@ -29622,7 +29622,8 @@
 	            required: true
 	          }),
 	          this.renderButton(),
-	          this.renderShrtrLink()
+	          this.renderShrtrLink(),
+	          this.props.error ? this.props.error : ''
 	        )
 	      );
 	    }
@@ -29662,7 +29663,7 @@
 
 	var _firebase2 = _interopRequireDefault(_firebase);
 
-	var _utils = __webpack_require__(280);
+	var _api = __webpack_require__(282);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29670,24 +29671,16 @@
 	  return function (dispatch) {
 	    dispatch({ type: _types.SHRTR_LINK_SUBMIT_PENDING });
 
-	    var linksRef = _firebase2.default.database().ref('links');
-	    var newLinkRef = linksRef.push();
-	    var newLink = {
-	      id: (0, _utils.generateID)(6),
-	      link: link,
-	      access_count: 0
-	    };
-
-	    newLinkRef.set(newLink).then(function () {
+	    (0, _api.shrnkLink)(link).then(function (newLink) {
 	      return shortenLinkSuccess(dispatch, newLink);
-	    }).catch(function () {
-	      return shortenLinkFail(dispatch);
+	    }).catch(function (error) {
+	      return shortenLinkFail(dispatch, error.code);
 	    });
 	  };
 	};
 
-	var shortenLinkFail = function shortenLinkFail(dispatch) {
-	  dispatch({ type: _types.SHRTR_LINK_SUBMIT_FAILED, payload: 'Unable to shorten link.' });
+	var shortenLinkFail = function shortenLinkFail(dispatch, error) {
+	  dispatch({ type: _types.SHRTR_LINK_SUBMIT_FAILED, payload: error });
 	};
 
 	var shortenLinkSuccess = function shortenLinkSuccess(dispatch, shrtrLink) {
@@ -29770,6 +29763,73 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.shrnkLink = exports.updateLinkAccessCount = exports.getLinkInfo = undefined;
+
+	var _firebase = __webpack_require__(271);
+
+	var _firebase2 = _interopRequireDefault(_firebase);
+
+	var _utils = __webpack_require__(280);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var getLinkInfo = exports.getLinkInfo = function getLinkInfo(id) {
+	  return _firebase2.default.database().ref('links').orderByChild('id').equalTo(id).once('value').then(function (data) {
+	    if (!data.val()) return Promise.reject();
+
+	    var val = data.val();
+	    var keys = Object.keys(val);
+
+	    return {
+	      linkInfo: val[keys[0]],
+	      key: keys[0]
+	    };
+	  });
+	};
+
+	var updateLinkAccessCount = exports.updateLinkAccessCount = function updateLinkAccessCount(key) {
+	  var user = _firebase2.default.auth().currentUser;
+
+	  return _firebase2.default.database().ref('links').child(key).child('access_count').transaction(function (access_count) {
+	    return access_count + 1;
+	  });
+	};
+
+	var loggedUser = function loggedUser() {
+	  var user = _firebase2.default.auth().currentUser;
+
+	  if (user) return Promise.resolve(user);
+
+	  return _firebase2.default.auth().signInAnonymously();
+	};
+
+	var shrnkLink = exports.shrnkLink = function shrnkLink(link) {
+
+	  return loggedUser().then(function (user) {
+	    var linksRef = _firebase2.default.database().ref('links');
+
+	    var newLink = {
+	      id: (0, _utils.generateID)(6),
+	      link: link,
+	      access_count: 0,
+	      user: user.uid
+	    };
+
+	    return linksRef.push(newLink).then(function () {
+	      return newLink;
+	    });
+	  });
+	};
+
+/***/ },
+/* 283 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 
@@ -29801,7 +29861,7 @@
 	exports.default = NotFound;
 
 /***/ },
-/* 283 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29822,7 +29882,7 @@
 
 	var _reactRouter = __webpack_require__(178);
 
-	var _api = __webpack_require__(290);
+	var _api = __webpack_require__(282);
 
 	var _utils = __webpack_require__(280);
 
@@ -29904,7 +29964,7 @@
 	exports.default = LinkInfo;
 
 /***/ },
-/* 284 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29915,7 +29975,7 @@
 
 	var _redux = __webpack_require__(233);
 
-	var _shrtrReducer = __webpack_require__(285);
+	var _shrtrReducer = __webpack_require__(286);
 
 	var _shrtrReducer2 = _interopRequireDefault(_shrtrReducer);
 
@@ -29926,7 +29986,7 @@
 	});
 
 /***/ },
-/* 285 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29940,7 +30000,6 @@
 	var _types = __webpack_require__(279);
 
 	var INITIAL_STATE = {
-	  link: '',
 	  error: '',
 	  loading: false,
 	  shrtrLink: null
@@ -29963,16 +30022,16 @@
 	};
 
 /***/ },
-/* 286 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(287);
+	var content = __webpack_require__(288);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(289)(content, {});
+	var update = __webpack_require__(290)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -29989,10 +30048,10 @@
 	}
 
 /***/ },
-/* 287 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(288)();
+	exports = module.exports = __webpack_require__(289)();
 	// imports
 
 
@@ -30003,7 +30062,7 @@
 
 
 /***/ },
-/* 288 */
+/* 289 */
 /***/ function(module, exports) {
 
 	/*
@@ -30059,7 +30118,7 @@
 
 
 /***/ },
-/* 289 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -30309,43 +30368,6 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
-
-/***/ },
-/* 290 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.updateLinkAccessCount = exports.getLinkInfo = undefined;
-
-	var _firebase = __webpack_require__(271);
-
-	var _firebase2 = _interopRequireDefault(_firebase);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var getLinkInfo = exports.getLinkInfo = function getLinkInfo(id) {
-	  return _firebase2.default.database().ref('links').orderByChild('id').equalTo(id).once('value').then(function (data) {
-	    if (!data.val()) return Promise.reject();
-
-	    var val = data.val();
-	    var keys = Object.keys(val);
-
-	    return {
-	      linkInfo: val[keys[0]],
-	      key: keys[0]
-	    };
-	  });
-	};
-
-	var updateLinkAccessCount = exports.updateLinkAccessCount = function updateLinkAccessCount(key) {
-	  return _firebase2.default.database().ref('links').child(key).child('access_count').transaction(function (access_count) {
-	    return access_count + 1;
-	  });
-	};
 
 /***/ }
 /******/ ]);

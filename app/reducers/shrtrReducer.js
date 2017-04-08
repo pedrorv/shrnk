@@ -5,7 +5,6 @@ import {
 } from '../actions/types'
 
 const INITIAL_STATE = {
-  link: '',
   error: '',
   loading: false,
   shrtrLink: null

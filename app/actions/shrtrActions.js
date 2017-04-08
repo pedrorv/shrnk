@@ -5,29 +5,20 @@ import {
 } from './types'
 
 import firebase from 'firebase'
-import { generateID } from '../utils' 
+import { shrnkLink } from '../api'
 
 export const shortenLink = (link) => {
   return (dispatch) => {
     dispatch({ type: SHRTR_LINK_SUBMIT_PENDING })
-
-    const linksRef = firebase.database().ref('links')
-    const newLinkRef = linksRef.push()
-    const newLink = {
-      id: generateID(6),
-      link,
-      access_count: 0
-    }
-
-    newLinkRef
-      .set(newLink)
-      .then(() => shortenLinkSuccess(dispatch, newLink))
-      .catch(() => shortenLinkFail(dispatch))
+    
+    shrnkLink(link)
+      .then(newLink => shortenLinkSuccess(dispatch, newLink))
+      .catch((error) => shortenLinkFail(dispatch, error.code))
   }
 }
 
-const shortenLinkFail = (dispatch) => {
-  dispatch({ type: SHRTR_LINK_SUBMIT_FAILED, payload: 'Unable to shorten link.' })
+const shortenLinkFail = (dispatch, error) => {
+  dispatch({ type: SHRTR_LINK_SUBMIT_FAILED, payload: error })
 }
 
 const shortenLinkSuccess = (dispatch, shrtrLink) => {
