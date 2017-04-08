@@ -29716,7 +29716,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.generateID = undefined;
+	exports.redirectTo = exports.generateID = undefined;
 
 	var _uid = __webpack_require__(281);
 
@@ -29730,6 +29730,14 @@
 	  });
 
 	  return id.join('');
+	};
+
+	var redirectTo = exports.redirectTo = function redirectTo(url) {
+	  if (url.indexOf('http://') === -1 || url.indexOf('https://') === -1) {
+	    return window.location.href = 'http://' + url;
+	  }
+
+	  return window.location.href = url;
 	};
 
 /***/ },
@@ -29816,6 +29824,8 @@
 
 	var _api = __webpack_require__(290);
 
+	var _utils = __webpack_require__(280);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -29864,10 +29874,17 @@
 	        );
 	      }
 
+	      if (linkInfo) {
+	        setInterval(function () {
+	          return (0, _utils.redirectTo)(linkInfo.link);
+	        }, 2000);
+	      }
+
 	      return _react2.default.createElement(
 	        'p',
 	        null,
-	        this.state.linkInfo.link
+	        'Redirecting to ',
+	        linkInfo.link
 	      );
 	    }
 	  }, {
