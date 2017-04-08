@@ -29812,6 +29812,8 @@
 
 	var _firebase2 = _interopRequireDefault(_firebase);
 
+	var _api = __webpack_require__(290);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -29837,18 +29839,15 @@
 	    value: function componentDidMount() {
 	      var _this2 = this;
 
-	      _firebase2.default.database().ref('links').orderByChild('id').equalTo(this.props.params.id).once('value').then(function (data) {
-	        var val = data.val();
-	        var keys = Object.keys(val);
-
-	        _this2.setState({ linkInfo: val[keys[0]] });
+	      (0, _api.getLinkInfo)(this.props.params.id).then(function (data) {
+	        _this2.setState({ linkInfo: data.linkInfo });
+	        (0, _api.updateLinkAccessCount)(data.key);
 	      });
 	    }
 	  }, {
 	    key: 'renderLinkInfo',
 	    value: function renderLinkInfo() {
 	      if (this.state.linkInfo) {
-	        console.log(this.state);
 	        return _react2.default.createElement(
 	          'p',
 	          null,
@@ -30280,6 +30279,41 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
+
+/***/ },
+/* 290 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.updateLinkAccessCount = exports.getLinkInfo = undefined;
+
+	var _firebase = __webpack_require__(271);
+
+	var _firebase2 = _interopRequireDefault(_firebase);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var getLinkInfo = exports.getLinkInfo = function getLinkInfo(id) {
+	  return _firebase2.default.database().ref('links').orderByChild('id').equalTo(id).once('value').then(function (data) {
+	    var val = data.val();
+	    var keys = Object.keys(val);
+
+	    return {
+	      linkInfo: val[keys[0]],
+	      key: keys[0]
+	    };
+	  });
+	};
+
+	var updateLinkAccessCount = exports.updateLinkAccessCount = function updateLinkAccessCount(key) {
+	  return _firebase2.default.database().ref('links').child(key).child('access_count').transaction(function (access_count) {
+	    return access_count + 1;
+	  });
+	};
 
 /***/ }
 /******/ ]);

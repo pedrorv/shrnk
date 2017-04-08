@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import firebase from 'firebase'
 
+import { getLinkInfo, updateLinkAccessCount } from '../api'
+
 class LinkInfo extends Component {
   constructor(props) {
     super(props)
@@ -9,22 +11,15 @@ class LinkInfo extends Component {
   }
 
   componentDidMount() {
-    firebase.database()
-      .ref('links')
-      .orderByChild('id')
-      .equalTo(this.props.params.id)
-      .once('value')
+    getLinkInfo(this.props.params.id)
       .then(data => {
-        let val = data.val()
-        let keys = Object.keys(val)
-
-        this.setState({ linkInfo: val[keys[0]] })
+        this.setState({ linkInfo: data.linkInfo })
+        updateLinkAccessCount(data.key)
       })
   }
 
   renderLinkInfo() {
     if (this.state.linkInfo) {
-      console.log(this.state)
       return <p>{this.state.linkInfo.link}</p>
     }
 
