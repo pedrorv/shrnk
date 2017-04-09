@@ -1,7 +1,8 @@
 import {
   SHRTR_LINK_SUBMIT_PENDING,
   SHRTR_LINK_SUBMIT_SUCCESS,
-  SHRTR_LINK_SUBMIT_FAILED
+  SHRTR_LINK_SUBMIT_FAILED,
+  SHRTR_LINK_INVALID
 } from './types'
 
 import firebase from 'firebase'
@@ -23,4 +24,10 @@ const shortenLinkFail = (dispatch, error) => {
 
 const shortenLinkSuccess = (dispatch, shrtrLink) => {
   dispatch({ type: SHRTR_LINK_SUBMIT_SUCCESS, payload: shrtrLink })
+}
+
+export const invalidLink = () => {
+  return (dispatch) => {
+    dispatch({ type: SHRTR_LINK_INVALID, payload: 'The link you want to shorten is invalid.' })
+  }
 }

@@ -2,14 +2,21 @@ import React, { Component } from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 
-import { shortenLink } from '../actions/shrtrActions'
+import { shortenLink, invalidLink } from '../actions/shrtrActions'
+import { isLinkValid } from '../utils'
 
 class Shrtr extends Component {
   handleSubmit(e) {
     e.preventDefault()
     const linkUrl = this.refs.link.value
 
-    this.props.shortenLink(linkUrl)
+    if (isLinkValid(linkUrl)) {
+      this.props.shortenLink(linkUrl)
+    } else {
+      this.props.invalidLink()
+    }
+
+    
   }
 
   renderButton() {
@@ -62,6 +69,7 @@ const mapStateToProps = (state) => {
 export default connect(
   mapStateToProps,
   {
-    shortenLink
+    shortenLink,
+    invalidLink
   }
 )(Shrtr)

@@ -29538,6 +29538,8 @@
 
 	var _shrtrActions = __webpack_require__(278);
 
+	var _utils = __webpack_require__(280);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -29561,7 +29563,11 @@
 	      e.preventDefault();
 	      var linkUrl = this.refs.link.value;
 
-	      this.props.shortenLink(linkUrl);
+	      if ((0, _utils.isLinkValid)(linkUrl)) {
+	        this.props.shortenLink(linkUrl);
+	      } else {
+	        this.props.invalidLink();
+	      }
 	    }
 	  }, {
 	    key: 'renderButton',
@@ -29643,7 +29649,8 @@
 	};
 
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, {
-	  shortenLink: _shrtrActions.shortenLink
+	  shortenLink: _shrtrActions.shortenLink,
+	  invalidLink: _shrtrActions.invalidLink
 	})(Shrtr);
 
 /***/ },
@@ -29655,7 +29662,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.shortenLink = undefined;
+	exports.invalidLink = exports.shortenLink = undefined;
 
 	var _types = __webpack_require__(279);
 
@@ -29687,6 +29694,12 @@
 	  dispatch({ type: _types.SHRTR_LINK_SUBMIT_SUCCESS, payload: shrtrLink });
 	};
 
+	var invalidLink = exports.invalidLink = function invalidLink() {
+	  return function (dispatch) {
+	    dispatch({ type: _types.SHRTR_LINK_INVALID, payload: 'The link you want to shorten is invalid.' });
+	  };
+	};
+
 /***/ },
 /* 279 */
 /***/ function(module, exports) {
@@ -29699,6 +29712,7 @@
 	var SHRTR_LINK_SUBMIT_PENDING = exports.SHRTR_LINK_SUBMIT_PENDING = 'SHRTR_LINK_SUBMIT_PENDING';
 	var SHRTR_LINK_SUBMIT_SUCCESS = exports.SHRTR_LINK_SUBMIT_SUCCESS = 'SHRTR_LINK_SUBIMT_SUCCESS';
 	var SHRTR_LINK_SUBMIT_FAILED = exports.SHRTR_LINK_SUBMIT_FAILED = 'SHRTR_LINK_SUBMIT_FAILED';
+	var SHRTR_LINK_INVALID = exports.SHRTR_LINK_INVALID = 'SHRTR_LINK_INVALID';
 
 /***/ },
 /* 280 */
@@ -29709,7 +29723,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.redirectTo = exports.generateID = undefined;
+	exports.isLinkValid = exports.redirectTo = exports.formatLink = exports.generateID = undefined;
 
 	var _uid = __webpack_require__(281);
 
@@ -29725,12 +29739,47 @@
 	  return id.join('');
 	};
 
-	var redirectTo = exports.redirectTo = function redirectTo(url) {
-	  if (url.indexOf('http://') === -1 || url.indexOf('https://') === -1) {
-	    return window.location.href = 'http://' + url;
-	  }
+	var formatLink = exports.formatLink = function formatLink(link) {
+	  if (link.indexOf('http://') === -1 || link.indexOf('https://') === -1) return 'http://' + link;
 
+	  return link;
+	};
+
+	var redirectTo = exports.redirectTo = function redirectTo(url) {
 	  return window.location.href = url;
+	};
+
+	// http://stackoverflow.com/questions/1701898/how-to-detect-whether-a-string-is-in-url-format-using-javascript
+	// Function for testing if some text is a url with javascript from stackoverflow users algorhythm and zhailulu
+
+	var IsURL = function IsURL(url) {
+
+	  var strRegex = "^((https|http|ftp|rtsp|mms)?://)" + "?(([0-9a-z_!~*'().&=+$%-]+: )?[0-9a-z_!~*'().&=+$%-]+@)?" //ftp的user@
+	  + "(([0-9]{1,3}\.){3}[0-9]{1,3}" // IP形式的URL- 199.194.52.184
+	  + "|" // 允许IP和DOMAIN（域名）
+	  + "([0-9a-z_!~*'()-]+\.)*" // 域名- www.
+	  + "([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\." // 二级域名
+	  + "[a-z]{2,6})" // first level domain- .com or .museum
+	  + "(:[0-9]{1,4})?" // 端口- :80
+	  + "((/?)|" // a slash isn't required if there is no file name
+	  + "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?)$";
+	  var re = new RegExp(strRegex);
+
+	  return re.test(url);
+	};
+
+	// https://github.com/segmentio/is-url
+	// Function for testing if url is valid
+
+	var isValid = function isValid(url) {
+
+	  var matcher = /^(?:\w+:)?\/\/([^\s\.]+\.\S{2}|localhost[\:?\d]*)\S*$/;
+
+	  return matcher.test(url);
+	};
+
+	var isLinkValid = exports.isLinkValid = function isLinkValid(link) {
+	  return IsURL(link.toLowerCase()) ? isValid(formatLink(link.toLowerCase())) : false;
 	};
 
 /***/ },
@@ -29812,7 +29861,7 @@
 
 	    var newLink = {
 	      id: (0, _utils.generateID)(6),
-	      link: link,
+	      link: link.toLowerCase(),
 	      access_count: 0,
 	      user: user.uid
 	    };
@@ -29936,7 +29985,7 @@
 
 	      if (linkInfo) {
 	        setInterval(function () {
-	          return (0, _utils.redirectTo)(linkInfo.link);
+	          return (0, _utils.redirectTo)((0, _utils.formatLink)(linkInfo.link));
 	        }, 2000);
 	      }
 
@@ -30016,6 +30065,8 @@
 	      return _extends({}, state, INITIAL_STATE, { shrtrLink: action.payload });
 	    case _types.SHRTR_LINK_SUBMIT_FAILED:
 	      return _extends({}, state, INITIAL_STATE, { error: action.payload });
+	    case _types.SHRTR_LINK_INVALID:
+	      return _extends({}, state, { error: action.payload });
 	    default:
 	      return state;
 	  }

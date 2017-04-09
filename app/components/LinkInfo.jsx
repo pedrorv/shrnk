@@ -3,7 +3,7 @@ import firebase from 'firebase'
 import { browserHistory } from 'react-router'
 
 import { getLinkInfo, updateLinkAccessCount } from '../api'
-import { redirectTo } from '../utils'
+import { formatLink, redirectTo } from '../utils'
 
 class LinkInfo extends Component {
   constructor(props) {
@@ -29,7 +29,7 @@ class LinkInfo extends Component {
     }
 
     if (linkInfo) {
-      setInterval(() => redirectTo(linkInfo.link), 2000)
+      setInterval(() => redirectTo(formatLink(linkInfo.link)), 2000)
     }
 
     return <p>Redirecting to {linkInfo.link}</p>

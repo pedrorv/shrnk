@@ -47,7 +47,7 @@ export const shrnkLink = (link) => {
 
             const newLink = {
               id: generateID(6),
-              link,
+              link: link.toLowerCase(),
               access_count: 0,
               user: user.uid
             }
