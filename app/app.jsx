@@ -6,9 +6,9 @@ import { Provider } from 'react-redux'
 import ReduxThunk from 'redux-thunk'
 
 import Main from 'Main'
-import Shrtr from 'Shrtr'
+import LinkShortener from 'LinkShortener'
 import NotFound from 'NotFound'
-import LinkInfo from 'LinkInfo'
+import LinkRedirect from 'LinkRedirect'
 
 import reducers from './reducers'
 
@@ -22,8 +22,8 @@ ReactDOM.render(
     <Router history={browserHistory}>
       <Route path="/shrtr" component={Main}>
         <Route path="not-found" component={NotFound} />
-        <Router path=":id" component={LinkInfo} />
-        <IndexRoute component={Shrtr} />
+        <Router path=":id" component={LinkRedirect} />
+        <IndexRoute component={LinkShortener} />
       </Route>
     </Router>
   </Provider>,

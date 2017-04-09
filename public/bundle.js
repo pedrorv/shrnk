@@ -68,17 +68,17 @@
 
 	var _Main2 = _interopRequireDefault(_Main);
 
-	var _Shrtr = __webpack_require__(277);
+	var _LinkShortener = __webpack_require__(277);
 
-	var _Shrtr2 = _interopRequireDefault(_Shrtr);
+	var _LinkShortener2 = _interopRequireDefault(_LinkShortener);
 
 	var _NotFound = __webpack_require__(283);
 
 	var _NotFound2 = _interopRequireDefault(_NotFound);
 
-	var _LinkInfo = __webpack_require__(284);
+	var _LinkRedirect = __webpack_require__(284);
 
-	var _LinkInfo2 = _interopRequireDefault(_LinkInfo);
+	var _LinkRedirect2 = _interopRequireDefault(_LinkRedirect);
 
 	var _reducers = __webpack_require__(285);
 
@@ -100,8 +100,8 @@
 	      _reactRouter.Route,
 	      { path: '/shrtr', component: _Main2.default },
 	      _react2.default.createElement(_reactRouter.Route, { path: 'not-found', component: _NotFound2.default }),
-	      _react2.default.createElement(_reactRouter.Router, { path: ':id', component: _LinkInfo2.default }),
-	      _react2.default.createElement(_reactRouter.IndexRoute, { component: _Shrtr2.default })
+	      _react2.default.createElement(_reactRouter.Router, { path: ':id', component: _LinkRedirect2.default }),
+	      _react2.default.createElement(_reactRouter.IndexRoute, { component: _LinkShortener2.default })
 	    )
 	  )
 	), document.getElementById('app'));
@@ -29538,7 +29538,7 @@
 
 	var _shrtrActions = __webpack_require__(278);
 
-	var _utils = __webpack_require__(280);
+	var _utils = __webpack_require__(281);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29548,16 +29548,16 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Shrtr = function (_Component) {
-	  _inherits(Shrtr, _Component);
+	var LinkShortener = function (_Component) {
+	  _inherits(LinkShortener, _Component);
 
-	  function Shrtr() {
-	    _classCallCheck(this, Shrtr);
+	  function LinkShortener() {
+	    _classCallCheck(this, LinkShortener);
 
-	    return _possibleConstructorReturn(this, (Shrtr.__proto__ || Object.getPrototypeOf(Shrtr)).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (LinkShortener.__proto__ || Object.getPrototypeOf(LinkShortener)).apply(this, arguments));
 	  }
 
-	  _createClass(Shrtr, [{
+	  _createClass(LinkShortener, [{
 	    key: 'handleSubmit',
 	    value: function handleSubmit(e) {
 	      e.preventDefault();
@@ -29635,7 +29635,7 @@
 	    }
 	  }]);
 
-	  return Shrtr;
+	  return LinkShortener;
 	}(_react.Component);
 
 	var mapStateToProps = function mapStateToProps(state) {
@@ -29651,7 +29651,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, {
 	  shortenLink: _shrtrActions.shortenLink,
 	  invalidLink: _shrtrActions.invalidLink
-	})(Shrtr);
+	})(LinkShortener);
 
 /***/ },
 /* 278 */
@@ -29670,7 +29670,7 @@
 
 	var _firebase2 = _interopRequireDefault(_firebase);
 
-	var _api = __webpack_require__(282);
+	var _api = __webpack_require__(280);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29723,9 +29723,76 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.shrnkLink = exports.updateLinkAccessCount = exports.getLinkInfo = undefined;
+
+	var _firebase = __webpack_require__(271);
+
+	var _firebase2 = _interopRequireDefault(_firebase);
+
+	var _utils = __webpack_require__(281);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var getLinkInfo = exports.getLinkInfo = function getLinkInfo(id) {
+	  return _firebase2.default.database().ref('links').orderByChild('id').equalTo(id).once('value').then(function (data) {
+	    if (!data.val()) return Promise.reject();
+
+	    var val = data.val();
+	    var keys = Object.keys(val);
+
+	    return {
+	      linkInfo: val[keys[0]],
+	      key: keys[0]
+	    };
+	  });
+	};
+
+	var updateLinkAccessCount = exports.updateLinkAccessCount = function updateLinkAccessCount(key) {
+	  var user = _firebase2.default.auth().currentUser;
+
+	  return _firebase2.default.database().ref('links').child(key).child('access_count').transaction(function (access_count) {
+	    return access_count + 1;
+	  });
+	};
+
+	var loggedUser = function loggedUser() {
+	  var user = _firebase2.default.auth().currentUser;
+
+	  if (user) return Promise.resolve(user);
+
+	  return _firebase2.default.auth().signInAnonymously();
+	};
+
+	var shrnkLink = exports.shrnkLink = function shrnkLink(link) {
+
+	  return loggedUser().then(function (user) {
+	    var linksRef = _firebase2.default.database().ref('links');
+
+	    var newLink = {
+	      id: (0, _utils.generateID)(6),
+	      link: link.toLowerCase(),
+	      access_count: 0,
+	      user: user.uid
+	    };
+
+	    return linksRef.push(newLink).then(function () {
+	      return newLink;
+	    });
+	  });
+	};
+
+/***/ },
+/* 281 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	exports.isLinkValid = exports.redirectTo = exports.formatLink = exports.generateID = undefined;
 
-	var _uid = __webpack_require__(281);
+	var _uid = __webpack_require__(282);
 
 	var _uid2 = _interopRequireDefault(_uid);
 
@@ -29783,7 +29850,7 @@
 	};
 
 /***/ },
-/* 281 */
+/* 282 */
 /***/ function(module, exports) {
 
 	/**
@@ -29804,73 +29871,6 @@
 	  return Math.random().toString(35).substr(2, len);
 	}
 
-
-/***/ },
-/* 282 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.shrnkLink = exports.updateLinkAccessCount = exports.getLinkInfo = undefined;
-
-	var _firebase = __webpack_require__(271);
-
-	var _firebase2 = _interopRequireDefault(_firebase);
-
-	var _utils = __webpack_require__(280);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var getLinkInfo = exports.getLinkInfo = function getLinkInfo(id) {
-	  return _firebase2.default.database().ref('links').orderByChild('id').equalTo(id).once('value').then(function (data) {
-	    if (!data.val()) return Promise.reject();
-
-	    var val = data.val();
-	    var keys = Object.keys(val);
-
-	    return {
-	      linkInfo: val[keys[0]],
-	      key: keys[0]
-	    };
-	  });
-	};
-
-	var updateLinkAccessCount = exports.updateLinkAccessCount = function updateLinkAccessCount(key) {
-	  var user = _firebase2.default.auth().currentUser;
-
-	  return _firebase2.default.database().ref('links').child(key).child('access_count').transaction(function (access_count) {
-	    return access_count + 1;
-	  });
-	};
-
-	var loggedUser = function loggedUser() {
-	  var user = _firebase2.default.auth().currentUser;
-
-	  if (user) return Promise.resolve(user);
-
-	  return _firebase2.default.auth().signInAnonymously();
-	};
-
-	var shrnkLink = exports.shrnkLink = function shrnkLink(link) {
-
-	  return loggedUser().then(function (user) {
-	    var linksRef = _firebase2.default.database().ref('links');
-
-	    var newLink = {
-	      id: (0, _utils.generateID)(6),
-	      link: link.toLowerCase(),
-	      access_count: 0,
-	      user: user.uid
-	    };
-
-	    return linksRef.push(newLink).then(function () {
-	      return newLink;
-	    });
-	  });
-	};
 
 /***/ },
 /* 283 */
@@ -29931,9 +29931,9 @@
 
 	var _reactRouter = __webpack_require__(178);
 
-	var _api = __webpack_require__(282);
+	var _api = __webpack_require__(280);
 
-	var _utils = __webpack_require__(280);
+	var _utils = __webpack_require__(281);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29943,19 +29943,19 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var LinkInfo = function (_Component) {
-	  _inherits(LinkInfo, _Component);
+	var LinkRedirect = function (_Component) {
+	  _inherits(LinkRedirect, _Component);
 
-	  function LinkInfo(props) {
-	    _classCallCheck(this, LinkInfo);
+	  function LinkRedirect(props) {
+	    _classCallCheck(this, LinkRedirect);
 
-	    var _this = _possibleConstructorReturn(this, (LinkInfo.__proto__ || Object.getPrototypeOf(LinkInfo)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (LinkRedirect.__proto__ || Object.getPrototypeOf(LinkRedirect)).call(this, props));
 
 	    _this.state = { linkInfo: null, loading: true };
 	    return _this;
 	  }
 
-	  _createClass(LinkInfo, [{
+	  _createClass(LinkRedirect, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      var _this2 = this;
@@ -30007,10 +30007,10 @@
 	    }
 	  }]);
 
-	  return LinkInfo;
+	  return LinkRedirect;
 	}(_react.Component);
 
-	exports.default = LinkInfo;
+	exports.default = LinkRedirect;
 
 /***/ },
 /* 285 */

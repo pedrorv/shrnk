@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router'
 import { getLinkInfo, updateLinkAccessCount } from '../api'
 import { formatLink, redirectTo } from '../utils'
 
-class LinkInfo extends Component {
+class LinkRedirect extends Component {
   constructor(props) {
     super(props)
 
@@ -44,4 +44,4 @@ class LinkInfo extends Component {
   }
 }
 
-export default LinkInfo
+export default LinkRedirect

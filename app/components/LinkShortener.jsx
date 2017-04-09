@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { shortenLink, invalidLink } from '../actions/shrtrActions'
 import { isLinkValid } from '../utils'
 
-class Shrtr extends Component {
+class LinkShortener extends Component {
   handleSubmit(e) {
     e.preventDefault()
     const linkUrl = this.refs.link.value
@@ -72,4 +72,4 @@ export default connect(
     shortenLink,
     invalidLink
   }
-)(Shrtr)
+)(LinkShortener)
