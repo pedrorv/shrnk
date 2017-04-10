@@ -12,6 +12,16 @@ describe('Utils', () => {
       expect(newID).to.be.a('string')
       expect(newID).to.have.lengthOf(length)
     })
+
+    it('should return a string that only contains numbers and letters', () => {
+      const length = 100
+      let result = false
+      for (var i = 0; i < 100; i++) {
+        result = result || /\W/.test(generateID(length))
+      }
+
+      expect(result).to.equal(false)
+    })
   })
 
   describe('isLinkValid', () => {
