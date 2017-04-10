@@ -1,13 +1,11 @@
 import uid from 'uid'
 
 export const generateID = (length) => {
-  let id = uid(length).split('').map(char => (Math.floor(Math.random() * 2)) ? char.toUpperCase() : char)
-
-  return id.join('')
+  return uid(length).split('').map(char => (Math.floor(Math.random() * 2)) ? char.toUpperCase() : char).join('')
 }
 
 export const formatLink = (link) => {
-  if (link.indexOf('http://') === -1 || link.indexOf('https://') === -1) return 'http://' + link
+  if (link.indexOf('http://') === -1 && link.indexOf('https://') === -1) return 'http://' + link
 
   return link
 }
