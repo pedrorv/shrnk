@@ -34,6 +34,6 @@
     "webpack": "^1.13.3"
   },
   "scripts": {
-    "test": "mocha --recursive --compilers js:babel-register"
+    "test": "mocha --recursive --compilers js:babel-register --timeout 15000"
   }
 }
