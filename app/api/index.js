@@ -31,7 +31,7 @@ export const updateLinkAccessCount = (key) => {
           .transaction((access_count) => access_count + 1)
 }
 
-const loggedUser = () => {
+export const loggedUser = () => {
   let user = firebase.auth().currentUser
 
   if (user) return Promise.resolve(user)
