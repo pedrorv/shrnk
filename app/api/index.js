@@ -22,8 +22,6 @@ export const getLinkInfo = (id) => {
 }
 
 export const updateLinkAccessCount = (key) => {
-  let user = firebase.auth().currentUser
-
   return firebase.database()
           .ref('links')
           .child(key)
