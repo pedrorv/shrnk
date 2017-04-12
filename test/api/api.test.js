@@ -1,5 +1,6 @@
 import firebase from 'firebase'
 import { expect } from 'chai'
+const should = require('chai').should()
 
 import { loggedUser, getLinkInfo, updateLinkAccessCount } from '../../app/api'
 
@@ -65,6 +66,30 @@ describe('API', () => {
           done()
         })
         .catch(done)
+    })
+
+    it('should throw a permission error updating more than the access_count', (done) => {
+      firebase.database()
+        .ref('links')
+        .child(testingLink.key)
+        .set({
+          access_count: testingLink.linkInfo.access_count + 2
+        })
+        .catch(error => {
+          should.exist(error)
+          done()
+        })
+    })
+
+    it('should throw a permission error when trying to remove a record', (done) => {
+      firebase.database()
+        .ref('links')
+        .child(testingLink.key)
+        .remove()
+        .catch(error => {
+          should.exist(error)
+          done()
+        })
     })
   })
 })
