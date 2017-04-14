@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import firebase from 'firebase'
 
+import Header from 'Header'
+
 class Main extends Component {
     componentWillMount() {
         var config = {
@@ -17,6 +19,7 @@ class Main extends Component {
     render() {
         return (
             <div style={style}>
+                <Header />
                 {this.props.children}
             </div>
         )
@@ -25,9 +28,9 @@ class Main extends Component {
 
 const style = {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'center',
-    padding: 20,
+    alignItems: 'center'
 }
 
 export default Main

@@ -24,7 +24,7 @@ class LinkShortener extends Component {
       return <p>Loading...</p>
     }
 
-    return <input type="submit" value="Make it shrtr!" />
+    return <input style={styles.buttonStyles} type="submit" value="Shrnk it!" />
   }
 
   renderShrtrLink() {
@@ -43,13 +43,17 @@ class LinkShortener extends Component {
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.handleSubmit.bind(this)}>
+      <div style={styles.divStyles}>
+        <form 
+          onSubmit={this.handleSubmit.bind(this)}
+          style={styles.formStyles}
+        >
             <input 
               type="text" 
               placeholder="Enter the link you want to shorten"
               ref="link"
               required
+              style={styles.inputStyles}
             />
             {this.renderButton()}
             {this.renderShrtrLink()}
@@ -57,6 +61,38 @@ class LinkShortener extends Component {
         </form>
       </div>
     )
+  }
+}
+
+const styles = {
+  divStyles: {
+    display: 'flex',
+    flex: 1,
+    flexDirection: 'column',
+    flexGrow: 1,
+    maxWidth: 500,
+    width: '90%',
+  },
+  formStyles: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  buttonStyles: {
+    alignSelf: 'center',
+    backgroundColor: '#09A8A3',
+    border: 'none',
+    color: '#fff',
+    fontFamily: 'monospace, sans-serif',
+    fontSize: '1.5rem',
+    fontWeight: 'bold',
+    marginTop: 10,
+    minWidth: '30%',
+    padding: 5,
+  },
+  inputStyles: {
+    fontFamily: 'monospace, sans-serif',
+    fontSize: '1.5rem',
+    padding: 5,
   }
 }
 

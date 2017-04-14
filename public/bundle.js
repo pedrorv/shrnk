@@ -68,19 +68,19 @@
 
 	var _Main2 = _interopRequireDefault(_Main);
 
-	var _LinkShortener = __webpack_require__(277);
+	var _LinkShortener = __webpack_require__(278);
 
 	var _LinkShortener2 = _interopRequireDefault(_LinkShortener);
 
-	var _NotFound = __webpack_require__(283);
+	var _NotFound = __webpack_require__(284);
 
 	var _NotFound2 = _interopRequireDefault(_NotFound);
 
-	var _LinkRedirect = __webpack_require__(284);
+	var _LinkRedirect = __webpack_require__(285);
 
 	var _LinkRedirect2 = _interopRequireDefault(_LinkRedirect);
 
-	var _reducers = __webpack_require__(285);
+	var _reducers = __webpack_require__(286);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -88,7 +88,7 @@
 
 	var store = (0, _redux.createStore)(_reducers2.default, {}, (0, _redux.applyMiddleware)(_reduxThunk2.default));
 
-	__webpack_require__(287);
+	__webpack_require__(288);
 
 	_reactDom2.default.render(_react2.default.createElement(
 	  _reactRedux.Provider,
@@ -28762,6 +28762,10 @@
 
 	var _firebase2 = _interopRequireDefault(_firebase);
 
+	var _Header = __webpack_require__(277);
+
+	var _Header2 = _interopRequireDefault(_Header);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -28798,6 +28802,7 @@
 	            return _react2.default.createElement(
 	                'div',
 	                { style: style },
+	                _react2.default.createElement(_Header2.default, null),
 	                this.props.children
 	            );
 	        }
@@ -28808,9 +28813,9 @@
 
 	var style = {
 	    display: 'flex',
-	    flexDirection: 'row',
+	    flexDirection: 'column',
 	    justifyContent: 'center',
-	    padding: 20
+	    alignItems: 'center'
 	};
 
 	exports.default = Main;
@@ -29532,13 +29537,83 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Header = function (_Component) {
+	  _inherits(Header, _Component);
+
+	  function Header() {
+	    _classCallCheck(this, Header);
+
+	    return _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).apply(this, arguments));
+	  }
+
+	  _createClass(Header, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { style: styles.divStyles },
+	        _react2.default.createElement(
+	          'h1',
+	          { style: styles.h1Styles },
+	          'shrnk'
+	        ),
+	        _react2.default.createElement(
+	          'h3',
+	          { style: styles.h3Styles },
+	          'URL shortener'
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Header;
+	}(_react.Component);
+
+	var styles = {
+	  divStyles: {
+	    textAlign: 'center'
+	  },
+	  h1Styles: {
+	    fontSize: '5rem'
+	  },
+	  h3Styles: {
+	    fontSize: '1.2rem'
+	  }
+	};
+
+	exports.default = Header;
+
+/***/ },
+/* 278 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
 	var _reactRouter = __webpack_require__(178);
 
 	var _reactRedux = __webpack_require__(254);
 
-	var _shrtrActions = __webpack_require__(278);
+	var _shrtrActions = __webpack_require__(279);
 
-	var _utils = __webpack_require__(281);
+	var _utils = __webpack_require__(282);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29580,7 +29655,7 @@
 	        );
 	      }
 
-	      return _react2.default.createElement('input', { type: 'submit', value: 'Make it shrtr!' });
+	      return _react2.default.createElement('input', { style: styles.buttonStyles, type: 'submit', value: 'Shrnk it!' });
 	    }
 	  }, {
 	    key: 'renderShrtrLink',
@@ -29617,15 +29692,19 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { style: styles.divStyles },
 	        _react2.default.createElement(
 	          'form',
-	          { onSubmit: this.handleSubmit.bind(this) },
+	          {
+	            onSubmit: this.handleSubmit.bind(this),
+	            style: styles.formStyles
+	          },
 	          _react2.default.createElement('input', {
 	            type: 'text',
 	            placeholder: 'Enter the link you want to shorten',
 	            ref: 'link',
-	            required: true
+	            required: true,
+	            style: styles.inputStyles
 	          }),
 	          this.renderButton(),
 	          this.renderShrtrLink(),
@@ -29637,6 +29716,38 @@
 
 	  return LinkShortener;
 	}(_react.Component);
+
+	var styles = {
+	  divStyles: {
+	    display: 'flex',
+	    flex: 1,
+	    flexDirection: 'column',
+	    flexGrow: 1,
+	    maxWidth: 500,
+	    width: '90%'
+	  },
+	  formStyles: {
+	    display: 'flex',
+	    flexDirection: 'column'
+	  },
+	  buttonStyles: {
+	    alignSelf: 'center',
+	    backgroundColor: '#09A8A3',
+	    border: 'none',
+	    color: '#fff',
+	    fontFamily: 'monospace, sans-serif',
+	    fontSize: '1.5rem',
+	    fontWeight: 'bold',
+	    marginTop: 10,
+	    minWidth: '30%',
+	    padding: 5
+	  },
+	  inputStyles: {
+	    fontFamily: 'monospace, sans-serif',
+	    fontSize: '1.5rem',
+	    padding: 5
+	  }
+	};
 
 	var mapStateToProps = function mapStateToProps(state) {
 	  var _state$shrtr = state.shrtr,
@@ -29654,7 +29765,7 @@
 	})(LinkShortener);
 
 /***/ },
-/* 278 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29664,13 +29775,13 @@
 	});
 	exports.invalidLink = exports.shortenLink = undefined;
 
-	var _types = __webpack_require__(279);
+	var _types = __webpack_require__(280);
 
 	var _firebase = __webpack_require__(271);
 
 	var _firebase2 = _interopRequireDefault(_firebase);
 
-	var _api = __webpack_require__(280);
+	var _api = __webpack_require__(281);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29701,7 +29812,7 @@
 	};
 
 /***/ },
-/* 279 */
+/* 280 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -29715,7 +29826,7 @@
 	var SHRTR_LINK_INVALID = exports.SHRTR_LINK_INVALID = 'SHRTR_LINK_INVALID';
 
 /***/ },
-/* 280 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29723,13 +29834,13 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.shrnkLink = exports.updateLinkAccessCount = exports.getLinkInfo = undefined;
+	exports.shrnkLink = exports.loggedUser = exports.updateLinkAccessCount = exports.getLinkInfo = undefined;
 
 	var _firebase = __webpack_require__(271);
 
 	var _firebase2 = _interopRequireDefault(_firebase);
 
-	var _utils = __webpack_require__(281);
+	var _utils = __webpack_require__(282);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29748,14 +29859,12 @@
 	};
 
 	var updateLinkAccessCount = exports.updateLinkAccessCount = function updateLinkAccessCount(key) {
-	  var user = _firebase2.default.auth().currentUser;
-
 	  return _firebase2.default.database().ref('links').child(key).child('access_count').transaction(function (access_count) {
 	    return access_count + 1;
 	  });
 	};
 
-	var loggedUser = function loggedUser() {
+	var loggedUser = exports.loggedUser = function loggedUser() {
 	  var user = _firebase2.default.auth().currentUser;
 
 	  if (user) return Promise.resolve(user);
@@ -29782,7 +29891,7 @@
 	};
 
 /***/ },
-/* 281 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29792,22 +29901,20 @@
 	});
 	exports.isLinkValid = exports.redirectTo = exports.formatLink = exports.generateID = undefined;
 
-	var _uid = __webpack_require__(282);
+	var _uid = __webpack_require__(283);
 
 	var _uid2 = _interopRequireDefault(_uid);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var generateID = exports.generateID = function generateID(length) {
-	  var id = (0, _uid2.default)(length).split('').map(function (char) {
+	  return (0, _uid2.default)(length).split('').map(function (char) {
 	    return Math.floor(Math.random() * 2) ? char.toUpperCase() : char;
-	  });
-
-	  return id.join('');
+	  }).join('');
 	};
 
 	var formatLink = exports.formatLink = function formatLink(link) {
-	  if (link.indexOf('http://') === -1 || link.indexOf('https://') === -1) return 'http://' + link;
+	  if (link.indexOf('http://') === -1 && link.indexOf('https://') === -1) return 'http://' + link;
 
 	  return link;
 	};
@@ -29850,7 +29957,7 @@
 	};
 
 /***/ },
-/* 282 */
+/* 283 */
 /***/ function(module, exports) {
 
 	/**
@@ -29873,7 +29980,7 @@
 
 
 /***/ },
-/* 283 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29910,7 +30017,7 @@
 	exports.default = NotFound;
 
 /***/ },
-/* 284 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29931,9 +30038,9 @@
 
 	var _reactRouter = __webpack_require__(178);
 
-	var _api = __webpack_require__(280);
+	var _api = __webpack_require__(281);
 
-	var _utils = __webpack_require__(281);
+	var _utils = __webpack_require__(282);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30013,7 +30120,7 @@
 	exports.default = LinkRedirect;
 
 /***/ },
-/* 285 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30024,7 +30131,7 @@
 
 	var _redux = __webpack_require__(233);
 
-	var _shrtrReducer = __webpack_require__(286);
+	var _shrtrReducer = __webpack_require__(287);
 
 	var _shrtrReducer2 = _interopRequireDefault(_shrtrReducer);
 
@@ -30035,7 +30142,7 @@
 	});
 
 /***/ },
-/* 286 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30046,7 +30153,7 @@
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _types = __webpack_require__(279);
+	var _types = __webpack_require__(280);
 
 	var INITIAL_STATE = {
 	  error: '',
@@ -30073,16 +30180,16 @@
 	};
 
 /***/ },
-/* 287 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(288);
+	var content = __webpack_require__(289);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(290)(content, {});
+	var update = __webpack_require__(291)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -30099,21 +30206,21 @@
 	}
 
 /***/ },
-/* 288 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(289)();
+	exports = module.exports = __webpack_require__(290)();
 	// imports
 
 
 	// module
-	exports.push([module.id, "/*! normalize.css v5.0.0 | MIT License | github.com/necolas/normalize.css */\n/* Document\n   ========================================================================== */\n/**\n * 1. Change the default font family in all browsers (opinionated).\n * 2. Correct the line height in all browsers.\n * 3. Prevent adjustments of font size after orientation changes in\n *    IE on Windows Phone and in iOS.\n */\nbutton, hr, input {\n  overflow: visible; }\n\naudio, canvas, progress, video {\n  display: inline-block; }\n\nprogress, sub, sup {\n  vertical-align: baseline; }\n\nhtml {\n  font-family: sans-serif;\n  line-height: 1.15;\n  -ms-text-size-adjust: 100%;\n  -webkit-text-size-adjust: 100%; }\n\nbody {\n  margin: 0; }\n\nmenu, article, aside, details, footer, header, nav, section {\n  display: block; }\n\nh1 {\n  font-size: 2em;\n  margin: .67em 0; }\n\nfigcaption, figure, main {\n  display: block; }\n\nfigure {\n  margin: 1em 40px; }\n\nhr {\n  box-sizing: content-box;\n  height: 0; }\n\ncode, kbd, pre, samp {\n  font-family: monospace,monospace;\n  font-size: 1em; }\n\na {\n  background-color: transparent;\n  -webkit-text-decoration-skip: objects; }\n\na:active, a:hover {\n  outline-width: 0; }\n\nabbr[title] {\n  border-bottom: none;\n  text-decoration: underline;\n  text-decoration: underline dotted; }\n\nb, strong {\n  font-weight: bolder; }\n\ndfn {\n  font-style: italic; }\n\nmark {\n  background-color: #ff0;\n  color: #000; }\n\nsmall {\n  font-size: 80%; }\n\nsub, sup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative; }\n\nsub {\n  bottom: -.25em; }\n\nsup {\n  top: -.5em; }\n\naudio:not([controls]) {\n  display: none;\n  height: 0; }\n\nimg {\n  border-style: none; }\n\nsvg:not(:root) {\n  overflow: hidden; }\n\nbutton, input, optgroup, select, textarea {\n  font-family: sans-serif;\n  font-size: 100%;\n  line-height: 1.15;\n  margin: 0; }\n\nbutton, select {\n  text-transform: none; }\n\n[type=submit], [type=reset], button, html [type=button] {\n  -webkit-appearance: button; }\n\n[type=button]::-moz-focus-inner, [type=reset]::-moz-focus-inner, [type=submit]::-moz-focus-inner, button::-moz-focus-inner {\n  border-style: none;\n  padding: 0; }\n\n[type=button]:-moz-focusring, [type=reset]:-moz-focusring, [type=submit]:-moz-focusring, button:-moz-focusring {\n  outline: ButtonText dotted 1px; }\n\nfieldset {\n  border: 1px solid silver;\n  margin: 0 2px;\n  padding: .35em .625em .75em; }\n\nlegend {\n  box-sizing: border-box;\n  color: inherit;\n  display: table;\n  max-width: 100%;\n  padding: 0;\n  white-space: normal; }\n\ntextarea {\n  overflow: auto; }\n\n[type=checkbox], [type=radio] {\n  box-sizing: border-box;\n  padding: 0; }\n\n[type=number]::-webkit-inner-spin-button, [type=number]::-webkit-outer-spin-button {\n  height: auto; }\n\n[type=search] {\n  -webkit-appearance: textfield;\n  outline-offset: -2px; }\n\n[type=search]::-webkit-search-cancel-button, [type=search]::-webkit-search-decoration {\n  -webkit-appearance: none; }\n\n::-webkit-file-upload-button {\n  -webkit-appearance: button;\n  font: inherit; }\n\nsummary {\n  display: list-item; }\n\n[hidden], template {\n  display: none; }\n", ""]);
+	exports.push([module.id, "/*! normalize.css v5.0.0 | MIT License | github.com/necolas/normalize.css */\n/* Document\n   ========================================================================== */\n/**\n * 1. Change the default font family in all browsers (opinionated).\n * 2. Correct the line height in all browsers.\n * 3. Prevent adjustments of font size after orientation changes in\n *    IE on Windows Phone and in iOS.\n */\nbutton, hr, input {\n  overflow: visible; }\n\naudio, canvas, progress, video {\n  display: inline-block; }\n\nprogress, sub, sup {\n  vertical-align: baseline; }\n\nhtml {\n  font-family: sans-serif;\n  line-height: 1.15;\n  -ms-text-size-adjust: 100%;\n  -webkit-text-size-adjust: 100%; }\n\nbody {\n  margin: 0; }\n\nmenu, article, aside, details, footer, header, nav, section {\n  display: block; }\n\nh1 {\n  font-size: 2em;\n  margin: .67em 0; }\n\nfigcaption, figure, main {\n  display: block; }\n\nfigure {\n  margin: 1em 40px; }\n\nhr {\n  box-sizing: content-box;\n  height: 0; }\n\ncode, kbd, pre, samp {\n  font-family: monospace,monospace;\n  font-size: 1em; }\n\na {\n  background-color: transparent;\n  -webkit-text-decoration-skip: objects; }\n\na:active, a:hover {\n  outline-width: 0; }\n\nabbr[title] {\n  border-bottom: none;\n  text-decoration: underline;\n  text-decoration: underline dotted; }\n\nb, strong {\n  font-weight: bolder; }\n\ndfn {\n  font-style: italic; }\n\nmark {\n  background-color: #ff0;\n  color: #000; }\n\nsmall {\n  font-size: 80%; }\n\nsub, sup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative; }\n\nsub {\n  bottom: -.25em; }\n\nsup {\n  top: -.5em; }\n\naudio:not([controls]) {\n  display: none;\n  height: 0; }\n\nimg {\n  border-style: none; }\n\nsvg:not(:root) {\n  overflow: hidden; }\n\nbutton, input, optgroup, select, textarea {\n  font-family: sans-serif;\n  font-size: 100%;\n  line-height: 1.15;\n  margin: 0; }\n\nbutton, select {\n  text-transform: none; }\n\n[type=submit], [type=reset], button, html [type=button] {\n  -webkit-appearance: button; }\n\n[type=button]::-moz-focus-inner, [type=reset]::-moz-focus-inner, [type=submit]::-moz-focus-inner, button::-moz-focus-inner {\n  border-style: none;\n  padding: 0; }\n\n[type=button]:-moz-focusring, [type=reset]:-moz-focusring, [type=submit]:-moz-focusring, button:-moz-focusring {\n  outline: ButtonText dotted 1px; }\n\nfieldset {\n  border: 1px solid silver;\n  margin: 0 2px;\n  padding: .35em .625em .75em; }\n\nlegend {\n  box-sizing: border-box;\n  color: inherit;\n  display: table;\n  max-width: 100%;\n  padding: 0;\n  white-space: normal; }\n\ntextarea {\n  overflow: auto; }\n\n[type=checkbox], [type=radio] {\n  box-sizing: border-box;\n  padding: 0; }\n\n[type=number]::-webkit-inner-spin-button, [type=number]::-webkit-outer-spin-button {\n  height: auto; }\n\n[type=search] {\n  -webkit-appearance: textfield;\n  outline-offset: -2px; }\n\n[type=search]::-webkit-search-cancel-button, [type=search]::-webkit-search-decoration {\n  -webkit-appearance: none; }\n\n::-webkit-file-upload-button {\n  -webkit-appearance: button;\n  font: inherit; }\n\nsummary {\n  display: list-item; }\n\n[hidden], template {\n  display: none; }\n\nhtml {\n  font-size: 10px;\n  font-family: 'monospace', 'sans-serif'; }\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 289 */
+/* 290 */
 /***/ function(module, exports) {
 
 	/*
@@ -30169,7 +30276,7 @@
 
 
 /***/ },
-/* 290 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
