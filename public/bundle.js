@@ -72,15 +72,15 @@
 
 	var _LinkShortener2 = _interopRequireDefault(_LinkShortener);
 
-	var _NotFound = __webpack_require__(284);
+	var _NotFound = __webpack_require__(285);
 
 	var _NotFound2 = _interopRequireDefault(_NotFound);
 
-	var _LinkRedirect = __webpack_require__(285);
+	var _LinkRedirect = __webpack_require__(286);
 
 	var _LinkRedirect2 = _interopRequireDefault(_LinkRedirect);
 
-	var _reducers = __webpack_require__(286);
+	var _reducers = __webpack_require__(287);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -88,7 +88,7 @@
 
 	var store = (0, _redux.createStore)(_reducers2.default, {}, (0, _redux.applyMiddleware)(_reduxThunk2.default));
 
-	__webpack_require__(288);
+	__webpack_require__(289);
 
 	_reactDom2.default.render(_react2.default.createElement(
 	  _reactRedux.Provider,
@@ -29615,6 +29615,10 @@
 
 	var _utils = __webpack_require__(282);
 
+	var _LinkCopy = __webpack_require__(284);
+
+	var _LinkCopy2 = _interopRequireDefault(_LinkCopy);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -29661,31 +29665,11 @@
 	    key: 'renderShrtrLink',
 	    value: function renderShrtrLink() {
 	      if (this.props.shrtrLink) {
-	        return _react2.default.createElement(
-	          'div',
-	          null,
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'Key: ',
-	            this.props.shrtrLink.id
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'Link: ',
-	            this.props.shrtrLink.link
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'Access Count: ',
-	            this.props.shrtrLink.access_count
-	          )
-	        );
+	        var link = "http://localhost:8080/shrtr/" + this.props.shrtrLink.id;
+	        return _react2.default.createElement(_LinkCopy2.default, { link: link });
 	      }
 
-	      return _react2.default.createElement('div', null);
+	      return null;
 	    }
 	  }, {
 	    key: 'render',
@@ -29706,9 +29690,9 @@
 	            className: 'link'
 	          }),
 	          this.renderButton(),
-	          this.renderShrtrLink(),
 	          this.props.error ? this.props.error : ''
-	        )
+	        ),
+	        this.renderShrtrLink()
 	      );
 	    }
 	  }]);
@@ -29950,6 +29934,82 @@
 /* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var LinkCopy = function (_Component) {
+	  _inherits(LinkCopy, _Component);
+
+	  function LinkCopy() {
+	    _classCallCheck(this, LinkCopy);
+
+	    return _possibleConstructorReturn(this, (LinkCopy.__proto__ || Object.getPrototypeOf(LinkCopy)).apply(this, arguments));
+	  }
+
+	  _createClass(LinkCopy, [{
+	    key: "copyLink",
+	    value: function copyLink(e) {
+	      e.preventDefault();
+
+	      if (document.querySelector("#copy-button").value === "Copy to clipboard") {
+	        document.querySelector("#generated-link").select();
+	        document.execCommand('copy');
+	        document.querySelector("#copy-button").value = "Copied!";
+	      }
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "copy-container" },
+	        _react2.default.createElement(
+	          "form",
+	          { onSubmit: this.copyLink.bind(this) },
+	          _react2.default.createElement("input", {
+	            id: "generated-link",
+	            className: "copy-link",
+	            type: "text",
+	            value: this.props.link,
+	            readOnly: true
+	          }),
+	          _react2.default.createElement("input", {
+	            id: "copy-button",
+	            className: "copy-button",
+	            type: "submit",
+	            value: "Copy to clipboard"
+	          })
+	        )
+	      );
+	    }
+	  }]);
+
+	  return LinkCopy;
+	}(_react.Component);
+
+	exports.default = LinkCopy;
+
+/***/ },
+/* 285 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -29984,7 +30044,7 @@
 	exports.default = NotFound;
 
 /***/ },
-/* 285 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30087,7 +30147,7 @@
 	exports.default = LinkRedirect;
 
 /***/ },
-/* 286 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30098,7 +30158,7 @@
 
 	var _redux = __webpack_require__(233);
 
-	var _shrtrReducer = __webpack_require__(287);
+	var _shrtrReducer = __webpack_require__(288);
 
 	var _shrtrReducer2 = _interopRequireDefault(_shrtrReducer);
 
@@ -30109,7 +30169,7 @@
 	});
 
 /***/ },
-/* 287 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30147,16 +30207,16 @@
 	};
 
 /***/ },
-/* 288 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(289);
+	var content = __webpack_require__(290);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(290)(content, {});
+	var update = __webpack_require__(292)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -30173,7 +30233,7 @@
 	}
 
 /***/ },
-/* 289 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(291)();
@@ -30181,13 +30241,69 @@
 
 
 	// module
-	exports.push([module.id, "/*! normalize.css v5.0.0 | MIT License | github.com/necolas/normalize.css */\n/* Document\n   ========================================================================== */\n/**\n * 1. Change the default font family in all browsers (opinionated).\n * 2. Correct the line height in all browsers.\n * 3. Prevent adjustments of font size after orientation changes in\n *    IE on Windows Phone and in iOS.\n */\nbutton, hr, input {\n  overflow: visible; }\n\naudio, canvas, progress, video {\n  display: inline-block; }\n\nprogress, sub, sup {\n  vertical-align: baseline; }\n\nhtml {\n  font-family: sans-serif;\n  line-height: 1.15;\n  -ms-text-size-adjust: 100%;\n  -webkit-text-size-adjust: 100%; }\n\nbody {\n  margin: 0; }\n\nmenu, article, aside, details, footer, header, nav, section {\n  display: block; }\n\nh1 {\n  font-size: 2em;\n  margin: .67em 0; }\n\nfigcaption, figure, main {\n  display: block; }\n\nfigure {\n  margin: 1em 40px; }\n\nhr {\n  box-sizing: content-box;\n  height: 0; }\n\ncode, kbd, pre, samp {\n  font-family: monospace,monospace;\n  font-size: 1em; }\n\na {\n  background-color: transparent;\n  -webkit-text-decoration-skip: objects; }\n\na:active, a:hover {\n  outline-width: 0; }\n\nabbr[title] {\n  border-bottom: none;\n  text-decoration: underline;\n  text-decoration: underline dotted; }\n\nb, strong {\n  font-weight: bolder; }\n\ndfn {\n  font-style: italic; }\n\nmark {\n  background-color: #ff0;\n  color: #000; }\n\nsmall {\n  font-size: 80%; }\n\nsub, sup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative; }\n\nsub {\n  bottom: -.25em; }\n\nsup {\n  top: -.5em; }\n\naudio:not([controls]) {\n  display: none;\n  height: 0; }\n\nimg {\n  border-style: none; }\n\nsvg:not(:root) {\n  overflow: hidden; }\n\nbutton, input, optgroup, select, textarea {\n  font-family: sans-serif;\n  font-size: 100%;\n  line-height: 1.15;\n  margin: 0; }\n\nbutton, select {\n  text-transform: none; }\n\n[type=submit], [type=reset], button, html [type=button] {\n  -webkit-appearance: button; }\n\n[type=button]::-moz-focus-inner, [type=reset]::-moz-focus-inner, [type=submit]::-moz-focus-inner, button::-moz-focus-inner {\n  border-style: none;\n  padding: 0; }\n\n[type=button]:-moz-focusring, [type=reset]:-moz-focusring, [type=submit]:-moz-focusring, button:-moz-focusring {\n  outline: ButtonText dotted 1px; }\n\nfieldset {\n  border: 1px solid silver;\n  margin: 0 2px;\n  padding: .35em .625em .75em; }\n\nlegend {\n  box-sizing: border-box;\n  color: inherit;\n  display: table;\n  max-width: 100%;\n  padding: 0;\n  white-space: normal; }\n\ntextarea {\n  overflow: auto; }\n\n[type=checkbox], [type=radio] {\n  box-sizing: border-box;\n  padding: 0; }\n\n[type=number]::-webkit-inner-spin-button, [type=number]::-webkit-outer-spin-button {\n  height: auto; }\n\n[type=search] {\n  -webkit-appearance: textfield;\n  outline-offset: -2px; }\n\n[type=search]::-webkit-search-cancel-button, [type=search]::-webkit-search-decoration {\n  -webkit-appearance: none; }\n\n::-webkit-file-upload-button {\n  -webkit-appearance: button;\n  font: inherit; }\n\nsummary {\n  display: list-item; }\n\n[hidden], template {\n  display: none; }\n\nhtml {\n  font-size: 10px;\n  font-family: 'monospace', 'sans-serif'; }\n\ndiv.shortener-container {\n  display: flex;\n  flex: 1;\n  flex-direction: column;\n  flex-grow: 1;\n  max-width: 500px;\n  width: 90%; }\n  div.shortener-container form {\n    display: flex;\n    flex-direction: column; }\n    div.shortener-container form input {\n      font-family: monospace, sans-serif;\n      font-size: 1.5rem;\n      padding: 5px; }\n    div.shortener-container form input.button {\n      align-self: center;\n      background: #09A8A3;\n      border: none;\n      color: #fff;\n      font-weight: bold;\n      margin-top: 10px;\n      min-width: 30%;\n      transition: transform 0.3s ease, background-color 0.3s ease; }\n      div.shortener-container form input.button:active {\n        background-color: #055f5d;\n        transform: scale(0.9); }\n    div.shortener-container form input.link {\n      transition: transform 0.3s ease; }\n      div.shortener-container form input.link:focus {\n        transform: scale(1.1); }\n", ""]);
+	exports.push([module.id, "/*! normalize.css v5.0.0 | MIT License | github.com/necolas/normalize.css */\n/* Document\n   ========================================================================== */\n/**\n * 1. Change the default font family in all browsers (opinionated).\n * 2. Correct the line height in all browsers.\n * 3. Prevent adjustments of font size after orientation changes in\n *    IE on Windows Phone and in iOS.\n */\nbutton, hr, input {\n  overflow: visible; }\n\naudio, canvas, progress, video {\n  display: inline-block; }\n\nprogress, sub, sup {\n  vertical-align: baseline; }\n\nhtml {\n  font-family: sans-serif;\n  line-height: 1.15;\n  -ms-text-size-adjust: 100%;\n  -webkit-text-size-adjust: 100%; }\n\nbody {\n  margin: 0; }\n\nmenu, article, aside, details, footer, header, nav, section {\n  display: block; }\n\nh1 {\n  font-size: 2em;\n  margin: .67em 0; }\n\nfigcaption, figure, main {\n  display: block; }\n\nfigure {\n  margin: 1em 40px; }\n\nhr {\n  box-sizing: content-box;\n  height: 0; }\n\ncode, kbd, pre, samp {\n  font-family: monospace,monospace;\n  font-size: 1em; }\n\na {\n  background-color: transparent;\n  -webkit-text-decoration-skip: objects; }\n\na:active, a:hover {\n  outline-width: 0; }\n\nabbr[title] {\n  border-bottom: none;\n  text-decoration: underline;\n  text-decoration: underline dotted; }\n\nb, strong {\n  font-weight: bolder; }\n\ndfn {\n  font-style: italic; }\n\nmark {\n  background-color: #ff0;\n  color: #000; }\n\nsmall {\n  font-size: 80%; }\n\nsub, sup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative; }\n\nsub {\n  bottom: -.25em; }\n\nsup {\n  top: -.5em; }\n\naudio:not([controls]) {\n  display: none;\n  height: 0; }\n\nimg {\n  border-style: none; }\n\nsvg:not(:root) {\n  overflow: hidden; }\n\nbutton, input, optgroup, select, textarea {\n  font-family: sans-serif;\n  font-size: 100%;\n  line-height: 1.15;\n  margin: 0; }\n\nbutton, select {\n  text-transform: none; }\n\n[type=submit], [type=reset], button, html [type=button] {\n  -webkit-appearance: button; }\n\n[type=button]::-moz-focus-inner, [type=reset]::-moz-focus-inner, [type=submit]::-moz-focus-inner, button::-moz-focus-inner {\n  border-style: none;\n  padding: 0; }\n\n[type=button]:-moz-focusring, [type=reset]:-moz-focusring, [type=submit]:-moz-focusring, button:-moz-focusring {\n  outline: ButtonText dotted 1px; }\n\nfieldset {\n  border: 1px solid silver;\n  margin: 0 2px;\n  padding: .35em .625em .75em; }\n\nlegend {\n  box-sizing: border-box;\n  color: inherit;\n  display: table;\n  max-width: 100%;\n  padding: 0;\n  white-space: normal; }\n\ntextarea {\n  overflow: auto; }\n\n[type=checkbox], [type=radio] {\n  box-sizing: border-box;\n  padding: 0; }\n\n[type=number]::-webkit-inner-spin-button, [type=number]::-webkit-outer-spin-button {\n  height: auto; }\n\n[type=search] {\n  -webkit-appearance: textfield;\n  outline-offset: -2px; }\n\n[type=search]::-webkit-search-cancel-button, [type=search]::-webkit-search-decoration {\n  -webkit-appearance: none; }\n\n::-webkit-file-upload-button {\n  -webkit-appearance: button;\n  font: inherit; }\n\nsummary {\n  display: list-item; }\n\n[hidden], template {\n  display: none; }\n\nhtml {\n  font-size: 10px;\n  font-family: 'monospace', 'sans-serif'; }\n\ndiv.shortener-container {\n  display: flex;\n  flex: 1;\n  flex-direction: column;\n  flex-grow: 1;\n  max-width: 500px;\n  width: 90%; }\n  div.shortener-container form {\n    display: flex;\n    flex-direction: column; }\n    div.shortener-container form input {\n      font-family: monospace, sans-serif;\n      font-size: 1.5rem;\n      padding: 5px; }\n    div.shortener-container form input.button {\n      align-self: center;\n      background: #09A8A3;\n      border: none;\n      color: #fff;\n      font-weight: bold;\n      margin-top: 10px;\n      min-width: 30%;\n      transition: transform 0.3s ease, background-color 0.3s ease; }\n      div.shortener-container form input.button:active {\n        background-color: #055f5d;\n        transform: scale(0.9); }\n    div.shortener-container form input.link {\n      transition: transform 0.3s ease; }\n      div.shortener-container form input.link:focus {\n        transform: scale(1.1); }\n\ndiv.copy-container {\n  display: flex;\n  flex: 1;\n  flex-direction: column;\n  flex-grow: 1;\n  max-width: 500px;\n  width: 100%;\n  margin-top: 20px; }\n  div.copy-container form {\n    display: flex;\n    flex-direction: column; }\n    div.copy-container form input {\n      font-family: monospace, sans-serif;\n      font-size: 1.5rem;\n      padding: 5px; }\n    div.copy-container form input.copy-button {\n      align-self: center;\n      background: #09A8A3;\n      border: none;\n      color: #fff;\n      font-weight: bold;\n      margin-top: 10px;\n      min-width: 30%;\n      transition: transform 0.3s ease, background-color 0.3s ease; }\n      div.copy-container form input.copy-button:active {\n        background-color: #055f5d;\n        transform: scale(0.9); }\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 290 */
+/* 291 */
+/***/ function(module, exports) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	// css base code, injected by the css-loader
+	module.exports = function() {
+		var list = [];
+
+		// return the list of modules as css string
+		list.toString = function toString() {
+			var result = [];
+			for(var i = 0; i < this.length; i++) {
+				var item = this[i];
+				if(item[2]) {
+					result.push("@media " + item[2] + "{" + item[1] + "}");
+				} else {
+					result.push(item[1]);
+				}
+			}
+			return result.join("");
+		};
+
+		// import a list of modules into the list
+		list.i = function(modules, mediaQuery) {
+			if(typeof modules === "string")
+				modules = [[null, modules, ""]];
+			var alreadyImportedModules = {};
+			for(var i = 0; i < this.length; i++) {
+				var id = this[i][0];
+				if(typeof id === "number")
+					alreadyImportedModules[id] = true;
+			}
+			for(i = 0; i < modules.length; i++) {
+				var item = modules[i];
+				// skip already imported module
+				// this implementation is not 100% perfect for weird media query combinations
+				//  when a module is imported multiple times with different media queries.
+				//  I hope this will never occur (Hey this way we have smaller bundles)
+				if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+					if(mediaQuery && !item[2]) {
+						item[2] = mediaQuery;
+					} else if(mediaQuery) {
+						item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+					}
+					list.push(item);
+				}
+			}
+		};
+		return list;
+	};
+
+
+/***/ },
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -30436,62 +30552,6 @@
 		if(oldSrc)
 			URL.revokeObjectURL(oldSrc);
 	}
-
-
-/***/ },
-/* 291 */
-/***/ function(module, exports) {
-
-	/*
-		MIT License http://www.opensource.org/licenses/mit-license.php
-		Author Tobias Koppers @sokra
-	*/
-	// css base code, injected by the css-loader
-	module.exports = function() {
-		var list = [];
-
-		// return the list of modules as css string
-		list.toString = function toString() {
-			var result = [];
-			for(var i = 0; i < this.length; i++) {
-				var item = this[i];
-				if(item[2]) {
-					result.push("@media " + item[2] + "{" + item[1] + "}");
-				} else {
-					result.push(item[1]);
-				}
-			}
-			return result.join("");
-		};
-
-		// import a list of modules into the list
-		list.i = function(modules, mediaQuery) {
-			if(typeof modules === "string")
-				modules = [[null, modules, ""]];
-			var alreadyImportedModules = {};
-			for(var i = 0; i < this.length; i++) {
-				var id = this[i][0];
-				if(typeof id === "number")
-					alreadyImportedModules[id] = true;
-			}
-			for(i = 0; i < modules.length; i++) {
-				var item = modules[i];
-				// skip already imported module
-				// this implementation is not 100% perfect for weird media query combinations
-				//  when a module is imported multiple times with different media queries.
-				//  I hope this will never occur (Hey this way we have smaller bundles)
-				if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-					if(mediaQuery && !item[2]) {
-						item[2] = mediaQuery;
-					} else if(mediaQuery) {
-						item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-					}
-					list.push(item);
-				}
-			}
-		};
-		return list;
-	};
 
 
 /***/ }

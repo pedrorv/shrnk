@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 import { shortenLink, invalidLink } from '../actions/shrtrActions'
 import { isLinkValid } from '../utils'
 
+import LinkCopy from 'LinkCopy'
+
 class LinkShortener extends Component {
   handleSubmit(e) {
     e.preventDefault()
@@ -29,16 +31,11 @@ class LinkShortener extends Component {
 
   renderShrtrLink() {
     if (this.props.shrtrLink) {
-      return (
-        <div>
-          <p>Key: {this.props.shrtrLink.id}</p>
-          <p>Link: {this.props.shrtrLink.link}</p>
-          <p>Access Count: {this.props.shrtrLink.access_count}</p>
-        </div>
-      )
+      let link = "http://localhost:8080/shrtr/" + this.props.shrtrLink.id
+      return <LinkCopy link={link} />
     }
 
-    return <div></div>
+    return null
   }
 
   render() {
@@ -55,9 +52,9 @@ class LinkShortener extends Component {
               className="link"
             />
             {this.renderButton()}
-            {this.renderShrtrLink()}
             {this.props.error ? this.props.error : ''}
         </form>
+        {this.renderShrtrLink()}
       </div>
     )
   }
