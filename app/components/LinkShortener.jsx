@@ -24,7 +24,7 @@ class LinkShortener extends Component {
       return <p>Loading...</p>
     }
 
-    return <input style={styles.buttonStyles} type="submit" value="Shrnk it!" />
+    return <input className="button" type="submit" value="Shrnk it!" />
   }
 
   renderShrtrLink() {
@@ -43,17 +43,16 @@ class LinkShortener extends Component {
 
   render() {
     return (
-      <div style={styles.divStyles}>
+      <div className="shortener-container">
         <form 
           onSubmit={this.handleSubmit.bind(this)}
-          style={styles.formStyles}
         >
             <input 
               type="text" 
               placeholder="Enter the link you want to shorten"
               ref="link"
               required
-              style={styles.inputStyles}
+              className="link"
             />
             {this.renderButton()}
             {this.renderShrtrLink()}
@@ -64,37 +63,6 @@ class LinkShortener extends Component {
   }
 }
 
-const styles = {
-  divStyles: {
-    display: 'flex',
-    flex: 1,
-    flexDirection: 'column',
-    flexGrow: 1,
-    maxWidth: 500,
-    width: '90%',
-  },
-  formStyles: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  buttonStyles: {
-    alignSelf: 'center',
-    backgroundColor: '#09A8A3',
-    border: 'none',
-    color: '#fff',
-    fontFamily: 'monospace, sans-serif',
-    fontSize: '1.5rem',
-    fontWeight: 'bold',
-    marginTop: 10,
-    minWidth: '30%',
-    padding: 5,
-  },
-  inputStyles: {
-    fontFamily: 'monospace, sans-serif',
-    fontSize: '1.5rem',
-    padding: 5,
-  }
-}
 
 const mapStateToProps = (state) => {
   const { error, loading, shrtrLink } = state.shrtr
