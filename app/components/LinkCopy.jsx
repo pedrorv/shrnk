@@ -1,13 +1,27 @@
 import React, { Component } from 'react'
 
 class LinkCopy extends Component {
+  constructor(props) {
+    super(props)
+
+    this.initialState = { copyButton: 'Copy' }
+
+    this.state = { copyButton: this.initialState.copyButton }
+  }
+
   copyLink(e) {
     e.preventDefault()
 
-    if (document.querySelector("#copy-button").value === "Copy to clipboard") {
+    if (this.state.copyButton === this.initialState.copyButton) {
       document.querySelector("#generated-link").select()
       document.execCommand('copy')
-      document.querySelector("#copy-button").value = "Copied!"
+      this.setState({ copyButton: 'Copied!' })
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props !== nextProps) {
+      this.setState({ ...this.initialState })
     }
   }
 
@@ -26,7 +40,7 @@ class LinkCopy extends Component {
             id="copy-button"
             className="copy-button"
             type="submit"
-            value="Copy to clipboard"  
+            value={this.state.copyButton}  
           />
         </form>
       </div>

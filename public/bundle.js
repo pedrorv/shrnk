@@ -29934,11 +29934,13 @@
 /* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -29957,44 +29959,56 @@
 	var LinkCopy = function (_Component) {
 	  _inherits(LinkCopy, _Component);
 
-	  function LinkCopy() {
+	  function LinkCopy(props) {
 	    _classCallCheck(this, LinkCopy);
 
-	    return _possibleConstructorReturn(this, (LinkCopy.__proto__ || Object.getPrototypeOf(LinkCopy)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (LinkCopy.__proto__ || Object.getPrototypeOf(LinkCopy)).call(this, props));
+
+	    _this.initialState = { copyButton: 'Copy' };
+
+	    _this.state = { copyButton: _this.initialState.copyButton };
+	    return _this;
 	  }
 
 	  _createClass(LinkCopy, [{
-	    key: "copyLink",
+	    key: 'copyLink',
 	    value: function copyLink(e) {
 	      e.preventDefault();
 
-	      if (document.querySelector("#copy-button").value === "Copy to clipboard") {
+	      if (this.state.copyButton === this.initialState.copyButton) {
 	        document.querySelector("#generated-link").select();
 	        document.execCommand('copy');
-	        document.querySelector("#copy-button").value = "Copied!";
+	        this.setState({ copyButton: 'Copied!' });
 	      }
 	    }
 	  }, {
-	    key: "render",
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      if (this.props !== nextProps) {
+	        this.setState(_extends({}, this.initialState));
+	      }
+	    }
+	  }, {
+	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
-	        "div",
-	        { className: "copy-container" },
+	        'div',
+	        { className: 'copy-container' },
 	        _react2.default.createElement(
-	          "form",
+	          'form',
 	          { onSubmit: this.copyLink.bind(this) },
-	          _react2.default.createElement("input", {
-	            id: "generated-link",
-	            className: "copy-link",
-	            type: "text",
+	          _react2.default.createElement('input', {
+	            id: 'generated-link',
+	            className: 'copy-link',
+	            type: 'text',
 	            value: this.props.link,
 	            readOnly: true
 	          }),
-	          _react2.default.createElement("input", {
-	            id: "copy-button",
-	            className: "copy-button",
-	            type: "submit",
-	            value: "Copy to clipboard"
+	          _react2.default.createElement('input', {
+	            id: 'copy-button',
+	            className: 'copy-button',
+	            type: 'submit',
+	            value: this.state.copyButton
 	          })
 	        )
 	      );
