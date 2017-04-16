@@ -2,7 +2,7 @@ import firebase from 'firebase'
 
 import { generateID } from '../utils'
 
-export const getLinkInfo = (id) => {
+export const getLinkDataFromId = (id) => {
   return firebase.database()
           .ref('links')
           .orderByChild('id')
@@ -21,7 +21,7 @@ export const getLinkInfo = (id) => {
           })
 }
 
-export const updateLinkAccessCount = (key) => {
+export const updateLinkAccessCountFromKey = (key) => {
   return firebase.database()
           .ref('links')
           .child(key)
@@ -29,7 +29,7 @@ export const updateLinkAccessCount = (key) => {
           .transaction((access_count) => access_count + 1)
 }
 
-export const loggedUser = () => {
+export const getLoggedUser = () => {
   let user = firebase.auth().currentUser
 
   if (user) return Promise.resolve(user)
@@ -39,7 +39,7 @@ export const loggedUser = () => {
 
 export const shrnkLink = (link) => {
   
-  return loggedUser()
+  return getLoggedUser()
           .then(user => {
             const linksRef = firebase.database().ref('links')
 

@@ -29,9 +29,9 @@ class LinkShortener extends Component {
     return <input className="button" type="submit" value="Shrnk it!" />
   }
 
-  renderShrtrLink() {
-    if (this.props.shrtrLink) {
-      let link = "http://localhost:8080/shrtr/" + this.props.shrtrLink.id
+  renderShortenedLink() {
+    if (this.props.shortenedLink) {
+      let link = "http://localhost:8080/shrtr/" + this.props.shortenedLink.id
       return <LinkCopy link={link} />
     }
 
@@ -54,7 +54,7 @@ class LinkShortener extends Component {
             {this.renderButton()}
             {this.props.error ? this.props.error : ''}
         </form>
-        {this.renderShrtrLink()}
+        {this.renderShortenedLink()}
       </div>
     )
   }
@@ -62,9 +62,9 @@ class LinkShortener extends Component {
 
 
 const mapStateToProps = (state) => {
-  const { error, loading, shrtrLink } = state.shrtr
+  const { error, loading, shortenedLink } = state.shrtr
 
-  return { error, loading, shrtrLink }
+  return { error, loading, shortenedLink }
 }
 
 export default connect(

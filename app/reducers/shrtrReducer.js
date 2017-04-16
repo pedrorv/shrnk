@@ -8,7 +8,7 @@ import {
 const INITIAL_STATE = {
   error: '',
   loading: false,
-  shrtrLink: null
+  shortenedLink: null
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -16,7 +16,7 @@ export default (state = INITIAL_STATE, action) => {
     case SHRTR_LINK_SUBMIT_PENDING:
       return { ...state, error: '', loading: true }
     case SHRTR_LINK_SUBMIT_SUCCESS:
-      return { ...state, ...INITIAL_STATE, shrtrLink: action.payload }
+      return { ...state, ...INITIAL_STATE, shortenedLink: action.payload }
     case SHRTR_LINK_SUBMIT_FAILED:
       return { ...state, ...INITIAL_STATE, error: action.payload }
     case SHRTR_LINK_INVALID:

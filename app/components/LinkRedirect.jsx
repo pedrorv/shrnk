@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import firebase from 'firebase'
 import { browserHistory } from 'react-router'
 
-import { getLinkInfo, updateLinkAccessCount } from '../api'
+import { getLinkDataFromId, updateLinkAccessCountFromKey } from '../api'
 import { formatLink, redirectTo } from '../utils'
 
 class LinkRedirect extends Component {
@@ -13,10 +13,10 @@ class LinkRedirect extends Component {
   }
 
   componentDidMount() {
-    getLinkInfo(this.props.params.id)
+    getLinkDataFromId(this.props.params.id)
       .then(data => {
         this.setState({ linkInfo: data.linkInfo, loading: false })
-        updateLinkAccessCount(data.key)
+        updateLinkAccessCountFromKey(data.key)
       })
       .catch(() => browserHistory.push('/shrtr/not-found'))
   }

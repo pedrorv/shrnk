@@ -2,7 +2,7 @@ import firebase from 'firebase'
 import { expect } from 'chai'
 const should = require('chai').should()
 
-import { loggedUser, getLinkInfo, updateLinkAccessCount } from '../../app/api'
+import { getLoggedUser, getLinkDataFromId, updateLinkAccessCountFromKey } from '../../app/api'
 
 const testingObjectID = '123456'
 
@@ -19,9 +19,9 @@ describe('API', () => {
     firebase.initializeApp(config)
   })
 
-  describe('loggedUser', () => {
+  describe('getLoggedUser', () => {
     it('should return a user object', (done) => {
-      loggedUser()
+      getLoggedUser()
         .then(user => {
           expect(user).to.be.a('object')
           expect(user).to.have.property('uid')
@@ -32,10 +32,10 @@ describe('API', () => {
     })
   })
 
-  describe('getLinkInfo', () => {
+  describe('getLinkDataFromId', () => {
     it('should return a link object', (done) => {
       // using a default link from testing database. link id: '123456'
-      getLinkInfo(testingObjectID)
+      getLinkDataFromId(testingObjectID)
         .then(link => {
           expect(link).to.be.a('object')
           expect(link).to.have.property('key')
@@ -47,10 +47,10 @@ describe('API', () => {
     })
   })
 
-  describe('updateLinkAccessCount', () => {
+  describe('updateLinkAccessCountFromKey', () => {
     let testingLink
     before((done) => {
-      getLinkInfo(testingObjectID)
+      getLinkDataFromId(testingObjectID)
         .then(link => {
           testingLink = link
           done()
@@ -59,8 +59,8 @@ describe('API', () => {
     })
 
     it('should increase testingObject access_count by one', (done) => {
-      updateLinkAccessCount(testingLink.key)
-        .then(() => getLinkInfo(testingLink.linkInfo.id))
+      updateLinkAccessCountFromKey(testingLink.key)
+        .then(() => getLinkDataFromId(testingLink.linkInfo.id))
         .then(link => {
           expect(link.linkInfo.access_count).to.equal(testingLink.linkInfo.access_count + 1)
           done()

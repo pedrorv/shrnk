@@ -29662,10 +29662,10 @@
 	      return _react2.default.createElement('input', { className: 'button', type: 'submit', value: 'Shrnk it!' });
 	    }
 	  }, {
-	    key: 'renderShrtrLink',
-	    value: function renderShrtrLink() {
-	      if (this.props.shrtrLink) {
-	        var link = "http://localhost:8080/shrtr/" + this.props.shrtrLink.id;
+	    key: 'renderShortenedLink',
+	    value: function renderShortenedLink() {
+	      if (this.props.shortenedLink) {
+	        var link = "http://localhost:8080/shrtr/" + this.props.shortenedLink.id;
 	        return _react2.default.createElement(_LinkCopy2.default, { link: link });
 	      }
 
@@ -29692,7 +29692,7 @@
 	          this.renderButton(),
 	          this.props.error ? this.props.error : ''
 	        ),
-	        this.renderShrtrLink()
+	        this.renderShortenedLink()
 	      );
 	    }
 	  }]);
@@ -29704,10 +29704,10 @@
 	  var _state$shrtr = state.shrtr,
 	      error = _state$shrtr.error,
 	      loading = _state$shrtr.loading,
-	      shrtrLink = _state$shrtr.shrtrLink;
+	      shortenedLink = _state$shrtr.shortenedLink;
 
 
-	  return { error: error, loading: loading, shrtrLink: shrtrLink };
+	  return { error: error, loading: loading, shortenedLink: shortenedLink };
 	};
 
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, {
@@ -29752,8 +29752,8 @@
 	  dispatch({ type: _types.SHRTR_LINK_SUBMIT_FAILED, payload: error });
 	};
 
-	var shortenLinkSuccess = function shortenLinkSuccess(dispatch, shrtrLink) {
-	  dispatch({ type: _types.SHRTR_LINK_SUBMIT_SUCCESS, payload: shrtrLink });
+	var shortenLinkSuccess = function shortenLinkSuccess(dispatch, shortenedLink) {
+	  dispatch({ type: _types.SHRTR_LINK_SUBMIT_SUCCESS, payload: shortenedLink });
 	};
 
 	var invalidLink = exports.invalidLink = function invalidLink() {
@@ -29785,7 +29785,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.shrnkLink = exports.loggedUser = exports.updateLinkAccessCount = exports.getLinkInfo = undefined;
+	exports.shrnkLink = exports.getLoggedUser = exports.updateLinkAccessCountFromKey = exports.getLinkDataFromId = undefined;
 
 	var _firebase = __webpack_require__(271);
 
@@ -29795,7 +29795,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var getLinkInfo = exports.getLinkInfo = function getLinkInfo(id) {
+	var getLinkDataFromId = exports.getLinkDataFromId = function getLinkDataFromId(id) {
 	  return _firebase2.default.database().ref('links').orderByChild('id').equalTo(id).once('value').then(function (data) {
 	    if (!data.val()) return Promise.reject();
 
@@ -29809,13 +29809,13 @@
 	  });
 	};
 
-	var updateLinkAccessCount = exports.updateLinkAccessCount = function updateLinkAccessCount(key) {
+	var updateLinkAccessCountFromKey = exports.updateLinkAccessCountFromKey = function updateLinkAccessCountFromKey(key) {
 	  return _firebase2.default.database().ref('links').child(key).child('access_count').transaction(function (access_count) {
 	    return access_count + 1;
 	  });
 	};
 
-	var loggedUser = exports.loggedUser = function loggedUser() {
+	var getLoggedUser = exports.getLoggedUser = function getLoggedUser() {
 	  var user = _firebase2.default.auth().currentUser;
 
 	  if (user) return Promise.resolve(user);
@@ -29825,7 +29825,7 @@
 
 	var shrnkLink = exports.shrnkLink = function shrnkLink(link) {
 
-	  return loggedUser().then(function (user) {
+	  return getLoggedUser().then(function (user) {
 	    var linksRef = _firebase2.default.database().ref('links');
 
 	    var newLink = {
@@ -30094,9 +30094,9 @@
 	    value: function componentDidMount() {
 	      var _this2 = this;
 
-	      (0, _api.getLinkInfo)(this.props.params.id).then(function (data) {
+	      (0, _api.getLinkDataFromId)(this.props.params.id).then(function (data) {
 	        _this2.setState({ linkInfo: data.linkInfo, loading: false });
-	        (0, _api.updateLinkAccessCount)(data.key);
+	        (0, _api.updateLinkAccessCountFromKey)(data.key);
 	      }).catch(function () {
 	        return _reactRouter.browserHistory.push('/shrtr/not-found');
 	      });
@@ -30185,7 +30185,7 @@
 	var INITIAL_STATE = {
 	  error: '',
 	  loading: false,
-	  shrtrLink: null
+	  shortenedLink: null
 	};
 
 	exports.default = function () {
@@ -30196,7 +30196,7 @@
 	    case _types.SHRTR_LINK_SUBMIT_PENDING:
 	      return _extends({}, state, { error: '', loading: true });
 	    case _types.SHRTR_LINK_SUBMIT_SUCCESS:
-	      return _extends({}, state, INITIAL_STATE, { shrtrLink: action.payload });
+	      return _extends({}, state, INITIAL_STATE, { shortenedLink: action.payload });
 	    case _types.SHRTR_LINK_SUBMIT_FAILED:
 	      return _extends({}, state, INITIAL_STATE, { error: action.payload });
 	    case _types.SHRTR_LINK_INVALID:

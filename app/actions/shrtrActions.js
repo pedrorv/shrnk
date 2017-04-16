@@ -22,8 +22,8 @@ const shortenLinkFail = (dispatch, error) => {
   dispatch({ type: SHRTR_LINK_SUBMIT_FAILED, payload: error })
 }
 
-const shortenLinkSuccess = (dispatch, shrtrLink) => {
-  dispatch({ type: SHRTR_LINK_SUBMIT_SUCCESS, payload: shrtrLink })
+const shortenLinkSuccess = (dispatch, shortenedLink) => {
+  dispatch({ type: SHRTR_LINK_SUBMIT_SUCCESS, payload: shortenedLink })
 }
 
 export const invalidLink = () => {
