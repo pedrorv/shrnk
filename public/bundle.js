@@ -30208,7 +30208,7 @@
 
 	  switch (action.type) {
 	    case _types.SHRTR_LINK_SUBMIT_PENDING:
-	      return _extends({}, state, { error: '', loading: true });
+	      return _extends({}, state, { error: '', loading: true, shortenedLink: null });
 	    case _types.SHRTR_LINK_SUBMIT_SUCCESS:
 	      return _extends({}, state, INITIAL_STATE, { shortenedLink: action.payload });
 	    case _types.SHRTR_LINK_SUBMIT_FAILED:

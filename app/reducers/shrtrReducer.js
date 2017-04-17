@@ -14,7 +14,7 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SHRTR_LINK_SUBMIT_PENDING:
-      return { ...state, error: '', loading: true }
+      return { ...state, error: '', loading: true, shortenedLink: null }
     case SHRTR_LINK_SUBMIT_SUCCESS:
       return { ...state, ...INITIAL_STATE, shortenedLink: action.payload }
     case SHRTR_LINK_SUBMIT_FAILED:
