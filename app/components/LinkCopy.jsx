@@ -9,14 +9,22 @@ class LinkCopy extends Component {
     this.state = { copyButton: this.initialState.copyButton }
   }
 
-  copyLink(e) {
+  handleCopyLink(e) {
     e.preventDefault()
 
-    if (this.state.copyButton === this.initialState.copyButton) {
-      document.querySelector("#generated-link").select()
-      document.execCommand('copy')
+    if (this.linkHaventBeenCopied()) {
+      this.copyLinkToClipboard()
       this.setState({ copyButton: 'Copied!' })
     }
+  }
+
+  copyLinkToClipboard() {
+    document.querySelector("#generated-link").select()
+    document.execCommand('copy')
+  }
+
+  linkHaventBeenCopied() {
+    return this.state.copyButton === this.initialState.copyButton
   }
 
   componentWillReceiveProps(nextProps) {
@@ -28,7 +36,7 @@ class LinkCopy extends Component {
   render() {
     return (
       <div className="copy-container">
-        <form onSubmit={this.copyLink.bind(this)}>
+        <form onSubmit={this.handleCopyLink.bind(this)}>
           <input
             id="generated-link"
             className="copy-link"

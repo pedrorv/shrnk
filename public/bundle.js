@@ -29971,15 +29971,25 @@
 	  }
 
 	  _createClass(LinkCopy, [{
-	    key: 'copyLink',
-	    value: function copyLink(e) {
+	    key: 'handleCopyLink',
+	    value: function handleCopyLink(e) {
 	      e.preventDefault();
 
-	      if (this.state.copyButton === this.initialState.copyButton) {
-	        document.querySelector("#generated-link").select();
-	        document.execCommand('copy');
+	      if (this.linkHaventBeenCopied()) {
+	        this.copyLinkToClipboard();
 	        this.setState({ copyButton: 'Copied!' });
 	      }
+	    }
+	  }, {
+	    key: 'copyLinkToClipboard',
+	    value: function copyLinkToClipboard() {
+	      document.querySelector("#generated-link").select();
+	      document.execCommand('copy');
+	    }
+	  }, {
+	    key: 'linkHaventBeenCopied',
+	    value: function linkHaventBeenCopied() {
+	      return this.state.copyButton === this.initialState.copyButton;
 	    }
 	  }, {
 	    key: 'componentWillReceiveProps',
@@ -29996,7 +30006,7 @@
 	        { className: 'copy-container' },
 	        _react2.default.createElement(
 	          'form',
-	          { onSubmit: this.copyLink.bind(this) },
+	          { onSubmit: this.handleCopyLink.bind(this) },
 	          _react2.default.createElement('input', {
 	            id: 'generated-link',
 	            className: 'copy-link',
