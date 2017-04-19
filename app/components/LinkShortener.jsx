@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 
-import { shortenLink, invalidLink } from '../actions/shrtrActions'
+import { shortenLink, invalidLink } from '../actions/shrnkActions'
 import { isLinkValid } from '../utils'
 
 import LinkCopy from 'LinkCopy'
@@ -41,6 +41,18 @@ class LinkShortener extends Component {
     return null
   }
 
+  renderError() {
+    if (!this.props.error) return null
+    
+    return (
+      <article className="message is-danger">
+        <div className="message-body">
+          {this.props.error}
+        </div>
+      </article>
+    )
+  }
+
   render() {
     return (
       <div className="container">
@@ -55,7 +67,7 @@ class LinkShortener extends Component {
               className="link"
             />
             {this.renderButton()}
-            {this.props.error ? this.props.error : ''}
+            {this.renderError()}
         </form>
         {this.renderShortenedLink()}
       </div>

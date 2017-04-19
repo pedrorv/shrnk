@@ -1,1 +1,1 @@
-export * from './shrtrActions'
+export * from './shrnkActions'

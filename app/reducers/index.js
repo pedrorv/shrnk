@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import shrtrReducer from './shrtrReducer'
+import shrnkReducer from './shrnkReducer'
 
 export default combineReducers({
-  shrtr: shrtrReducer
+  shrtr: shrnkReducer
 })

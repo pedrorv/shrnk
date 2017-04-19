@@ -1,8 +1,8 @@
 import {
-  SHRTR_LINK_SUBMIT_PENDING,
-  SHRTR_LINK_SUBMIT_SUCCESS,
-  SHRTR_LINK_SUBMIT_FAILED,
-  SHRTR_LINK_INVALID
+  SHRNK_LINK_SUBMIT_PENDING,
+  SHRNK_LINK_SUBMIT_SUCCESS,
+  SHRNK_LINK_SUBMIT_FAILED,
+  SHRNK_LINK_INVALID
 } from './types'
 
 import firebase from 'firebase'
@@ -10,7 +10,7 @@ import { shrnkLink } from '../api'
 
 export const shortenLink = (link) => {
   return (dispatch) => {
-    dispatch({ type: SHRTR_LINK_SUBMIT_PENDING })
+    dispatch({ type: SHRNK_LINK_SUBMIT_PENDING })
     
     shrnkLink(link)
       .then(newLink => shortenLinkSuccess(dispatch, newLink))
@@ -19,15 +19,15 @@ export const shortenLink = (link) => {
 }
 
 const shortenLinkFail = (dispatch, error) => {
-  dispatch({ type: SHRTR_LINK_SUBMIT_FAILED, payload: error })
+  dispatch({ type: SHRNK_LINK_SUBMIT_FAILED, payload: error })
 }
 
 const shortenLinkSuccess = (dispatch, shortenedLink) => {
-  dispatch({ type: SHRTR_LINK_SUBMIT_SUCCESS, payload: shortenedLink })
+  dispatch({ type: SHRNK_LINK_SUBMIT_SUCCESS, payload: shortenedLink })
 }
 
 export const invalidLink = () => {
   return (dispatch) => {
-    dispatch({ type: SHRTR_LINK_INVALID, payload: 'The link you want to shorten is invalid.' })
+    dispatch({ type: SHRNK_LINK_INVALID, payload: 'The link you want to shorten is invalid.' })
   }
 }

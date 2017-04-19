@@ -32,8 +32,12 @@ div.container {
       transition: transform 0.3s ease, background-color 0.3s ease;
 
       &:active {
-        background-color: darken(#09A8A3, 15%);
+        background-color: darken(#09A8A3, 20%);
         transform: scale(0.9);
+      }
+
+      &:hover {
+        background-color: darken(#09A8A3, 5%);
       }
 
       &.is-loading:after {
@@ -54,4 +58,8 @@ div.container {
       width: 100%;
     }
   }
+}
+
+article.message {
+  margin-top: 20px;
 }
