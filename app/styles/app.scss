@@ -1,9 +1,12 @@
 @import 'base/normalize';
+@import '../../node_modules/bulma/bulma.sass';
 
 html {
   font-size: 10px;
+}
+
+body, button, input, select, textarea {
   font-family: 'monospace', 'sans-serif';
 }
 
-@import 'components/link-shortener';
-@import 'components/link-copy';
+@import 'pages/link-shortener-page';

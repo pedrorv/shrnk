@@ -1,36 +1,57 @@
-div.copy-container {
+div.container {
   display: flex;
   flex: 1;
   flex-direction: column;
   flex-grow: 1;
   max-width: 500px;
-  width: 100%;
-  margin-top: 20px;
+  width: 90%;
 
   form {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: monospace, sans-serif;
+    font-size: 1.5rem;
+    padding: 5px;
 
-    input {
+    input, button {
       font-family: monospace, sans-serif;
       font-size: 1.5rem;
       padding: 5px;
     }
   
-    input.copy-button {
+    button.button {
       align-self: center;
       background: #09A8A3;
       border: none;
       color: #fff;
       font-weight: bold;
       margin-top: 10px;
-      min-width: 30%;
+      padding: 10px 30px; 
       transition: transform 0.3s ease, background-color 0.3s ease;
 
       &:active {
         background-color: darken(#09A8A3, 15%);
         transform: scale(0.9);
       }
+
+      &.is-loading:after {
+        border-color: transparent transparent #fff #fff;
+      }
+    }
+
+    input.link {
+      transition: transform 0.3s ease;
+      width: 100%;
+
+      &:focus {
+        transform: scale(1.1);
+      }
+    }
+
+    input.copy-link {
+      width: 100%;
     }
   }
 }

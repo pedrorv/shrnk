@@ -22,11 +22,14 @@ class LinkShortener extends Component {
   }
 
   renderButton() {
-    if (this.props.loading) {
-      return <p>Loading...</p>
-    }
-
-    return <input className="button" type="submit" value="Shrnk it!" />
+    return (
+      <button
+        className={"button " + (this.props.loading ? "is-loading" : "")} 
+        type="submit"
+      >
+        Shrnk it! 
+      </button>
+    )
   }
 
   renderShortenedLink() {
@@ -40,7 +43,7 @@ class LinkShortener extends Component {
 
   render() {
     return (
-      <div className="shortener-container">
+      <div className="container">
         <form 
           onSubmit={this.handleSubmit.bind(this)}
         >
