@@ -13,7 +13,8 @@ class Header extends Component {
 
 const styles = {
   divStyles: {
-    textAlign: 'center'
+    textAlign: 'center',
+    marginBottom: '10px'
   },
   h1Styles: {
     fontSize: '5rem'
