@@ -3,9 +3,9 @@ import { Link } from 'react-router'
 
 const NotFound = (props) => {
     return (
-        <div>
-            <p>Page not found.</p>
-            <Link to={'/shrnk'}>Home</Link>
+        <div style={{ marginTop: '10px', textAlign: 'center' }}>
+            <p>Oops! We can't find the page you are looking for.</p>
+            <p><Link to={'/shrnk'}>Click here to shrnk a link.</Link></p>
         </div>
     )
 }

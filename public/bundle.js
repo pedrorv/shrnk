@@ -30074,16 +30074,20 @@
 	var NotFound = function NotFound(props) {
 	    return _react2.default.createElement(
 	        'div',
-	        null,
+	        { style: { marginTop: '10px', textAlign: 'center' } },
 	        _react2.default.createElement(
 	            'p',
 	            null,
-	            'Page not found.'
+	            'Oops! We can\'t find the page you are looking for.'
 	        ),
 	        _react2.default.createElement(
-	            _reactRouter.Link,
-	            { to: '/shrnk' },
-	            'Home'
+	            'p',
+	            null,
+	            _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: '/shrnk' },
+	                'Click here to shrnk a link.'
+	            )
 	        )
 	    );
 	};
