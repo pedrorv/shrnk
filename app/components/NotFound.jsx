@@ -5,7 +5,7 @@ const NotFound = (props) => {
     return (
         <div>
             <p>Page not found.</p>
-            <Link to={'/shrtr/'}>Home</Link>
+            <Link to={'/shrnk'}>Home</Link>
         </div>
     )
 }

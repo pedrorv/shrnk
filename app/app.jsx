@@ -20,7 +20,7 @@ require('./styles/app.scss')
 ReactDOM.render(
   <Provider store={store}>
     <Router history={browserHistory}>
-      <Route path="/shrtr" component={Main}>
+      <Route path="/shrnk" component={Main}>
         <Route path="not-found" component={NotFound} />
         <Router path=":id" component={LinkRedirect} />
         <IndexRoute component={LinkShortener} />

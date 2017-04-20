@@ -98,7 +98,7 @@
 	    { history: _reactRouter.browserHistory },
 	    _react2.default.createElement(
 	      _reactRouter.Route,
-	      { path: '/shrtr', component: _Main2.default },
+	      { path: '/shrnk', component: _Main2.default },
 	      _react2.default.createElement(_reactRouter.Route, { path: 'not-found', component: _NotFound2.default }),
 	      _react2.default.createElement(_reactRouter.Router, { path: ':id', component: _LinkRedirect2.default }),
 	      _react2.default.createElement(_reactRouter.IndexRoute, { component: _LinkShortener2.default })
@@ -30082,7 +30082,7 @@
 	        ),
 	        _react2.default.createElement(
 	            _reactRouter.Link,
-	            { to: '/shrtr/' },
+	            { to: '/shrnk' },
 	            'Home'
 	        )
 	    );
@@ -30145,7 +30145,7 @@
 	        _this2.setState({ linkInfo: data.linkInfo, loading: false });
 	        (0, _api.updateLinkAccessCountFromKey)(data.key);
 	      }).catch(function () {
-	        return _reactRouter.browserHistory.push('/shrtr/not-found');
+	        return _reactRouter.browserHistory.push('/shrnk/not-found');
 	      });
 	    }
 	  }, {

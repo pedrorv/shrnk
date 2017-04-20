@@ -18,7 +18,7 @@ class LinkRedirect extends Component {
         this.setState({ linkInfo: data.linkInfo, loading: false })
         updateLinkAccessCountFromKey(data.key)
       })
-      .catch(() => browserHistory.push('/shrtr/not-found'))
+      .catch(() => browserHistory.push('/shrnk/not-found'))
   }
 
   renderLinkInfo() {
