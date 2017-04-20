@@ -29672,7 +29672,7 @@
 	            origin = _window$location.origin,
 	            pathname = _window$location.pathname;
 
-	        var link = origin + pathname + (pathname[pathname.length - 1] === '/' ? shortenedLink.id : '/' + shortenedLink.id);
+	        var link = origin + pathname + (pathname.endsWith('/') ? shortenedLink.id : '/' + shortenedLink.id);
 	        return _react2.default.createElement(_LinkCopy2.default, { link: link });
 	      }
 

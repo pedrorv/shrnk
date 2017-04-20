@@ -37,7 +37,7 @@ class LinkShortener extends Component {
 
     if (shortenedLink) {
       const { origin, pathname } = window.location
-      let link = origin + pathname + (pathname[pathname.length - 1] === '/' ? shortenedLink.id : '/' + shortenedLink.id)
+      let link = origin + pathname + (pathname.endsWith('/') ? shortenedLink.id : '/' + shortenedLink.id)
       return <LinkCopy link={link} />
     }
 
