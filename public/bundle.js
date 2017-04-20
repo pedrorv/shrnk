@@ -29611,7 +29611,7 @@
 
 	var _reactRedux = __webpack_require__(254);
 
-	var _shrnkActions = __webpack_require__(294);
+	var _shrnkActions = __webpack_require__(279);
 
 	var _utils = __webpack_require__(282);
 
@@ -29663,8 +29663,15 @@
 	  }, {
 	    key: 'renderShortenedLink',
 	    value: function renderShortenedLink() {
-	      if (this.props.shortenedLink) {
-	        var link = "http://localhost:8080/shrtr/" + this.props.shortenedLink.id;
+	      var shortenedLink = this.props.shortenedLink;
+
+
+	      if (shortenedLink) {
+	        var _window$location = window.location,
+	            origin = _window$location.origin,
+	            pathname = _window$location.pathname;
+
+	        var link = origin + pathname + (pathname[pathname.length - 1] === '/' ? shortenedLink.id : '/' + shortenedLink.id);
 	        return _react2.default.createElement(_LinkCopy2.default, { link: link });
 	      }
 
@@ -29730,7 +29737,53 @@
 	})(LinkShortener);
 
 /***/ },
-/* 279 */,
+/* 279 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.invalidLink = exports.shortenLink = undefined;
+
+	var _types = __webpack_require__(280);
+
+	var _firebase = __webpack_require__(271);
+
+	var _firebase2 = _interopRequireDefault(_firebase);
+
+	var _api = __webpack_require__(281);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var shortenLink = exports.shortenLink = function shortenLink(link) {
+	  return function (dispatch) {
+	    dispatch({ type: _types.SHRNK_LINK_SUBMIT_PENDING });
+
+	    (0, _api.shrnkLink)(link).then(function (newLink) {
+	      return shortenLinkSuccess(dispatch, newLink);
+	    }).catch(function (error) {
+	      return shortenLinkFail(dispatch, error.code);
+	    });
+	  };
+	};
+
+	var shortenLinkFail = function shortenLinkFail(dispatch, error) {
+	  dispatch({ type: _types.SHRNK_LINK_SUBMIT_FAILED, payload: error });
+	};
+
+	var shortenLinkSuccess = function shortenLinkSuccess(dispatch, shortenedLink) {
+	  dispatch({ type: _types.SHRNK_LINK_SUBMIT_SUCCESS, payload: shortenedLink });
+	};
+
+	var invalidLink = exports.invalidLink = function invalidLink() {
+	  return function (dispatch) {
+	    dispatch({ type: _types.SHRNK_LINK_INVALID, payload: 'The link you want to shorten is invalid.' });
+	  };
+	};
+
+/***/ },
 /* 280 */
 /***/ function(module, exports) {
 
@@ -30152,7 +30205,7 @@
 
 	var _redux = __webpack_require__(233);
 
-	var _shrnkReducer = __webpack_require__(293);
+	var _shrnkReducer = __webpack_require__(288);
 
 	var _shrnkReducer2 = _interopRequireDefault(_shrnkReducer);
 
@@ -30163,7 +30216,44 @@
 	});
 
 /***/ },
-/* 288 */,
+/* 288 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _types = __webpack_require__(280);
+
+	var INITIAL_STATE = {
+	  error: '',
+	  loading: false,
+	  shortenedLink: null
+	};
+
+	exports.default = function () {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : INITIAL_STATE;
+	  var action = arguments[1];
+
+	  switch (action.type) {
+	    case _types.SHRNK_LINK_SUBMIT_PENDING:
+	      return _extends({}, state, { error: '', loading: true, shortenedLink: null });
+	    case _types.SHRNK_LINK_SUBMIT_SUCCESS:
+	      return _extends({}, state, INITIAL_STATE, { shortenedLink: action.payload });
+	    case _types.SHRNK_LINK_SUBMIT_FAILED:
+	      return _extends({}, state, INITIAL_STATE, { error: action.payload });
+	    case _types.SHRNK_LINK_INVALID:
+	      return _extends({}, state, { error: action.payload, shortenedLink: null });
+	    default:
+	      return state;
+	  }
+	};
+
+/***/ },
 /* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -30510,91 +30600,6 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
-
-/***/ },
-/* 293 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var _types = __webpack_require__(280);
-
-	var INITIAL_STATE = {
-	  error: '',
-	  loading: false,
-	  shortenedLink: null
-	};
-
-	exports.default = function () {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : INITIAL_STATE;
-	  var action = arguments[1];
-
-	  switch (action.type) {
-	    case _types.SHRNK_LINK_SUBMIT_PENDING:
-	      return _extends({}, state, { error: '', loading: true, shortenedLink: null });
-	    case _types.SHRNK_LINK_SUBMIT_SUCCESS:
-	      return _extends({}, state, INITIAL_STATE, { shortenedLink: action.payload });
-	    case _types.SHRNK_LINK_SUBMIT_FAILED:
-	      return _extends({}, state, INITIAL_STATE, { error: action.payload });
-	    case _types.SHRNK_LINK_INVALID:
-	      return _extends({}, state, { error: action.payload, shortenedLink: null });
-	    default:
-	      return state;
-	  }
-	};
-
-/***/ },
-/* 294 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.invalidLink = exports.shortenLink = undefined;
-
-	var _types = __webpack_require__(280);
-
-	var _firebase = __webpack_require__(271);
-
-	var _firebase2 = _interopRequireDefault(_firebase);
-
-	var _api = __webpack_require__(281);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var shortenLink = exports.shortenLink = function shortenLink(link) {
-	  return function (dispatch) {
-	    dispatch({ type: _types.SHRNK_LINK_SUBMIT_PENDING });
-
-	    (0, _api.shrnkLink)(link).then(function (newLink) {
-	      return shortenLinkSuccess(dispatch, newLink);
-	    }).catch(function (error) {
-	      return shortenLinkFail(dispatch, error.code);
-	    });
-	  };
-	};
-
-	var shortenLinkFail = function shortenLinkFail(dispatch, error) {
-	  dispatch({ type: _types.SHRNK_LINK_SUBMIT_FAILED, payload: error });
-	};
-
-	var shortenLinkSuccess = function shortenLinkSuccess(dispatch, shortenedLink) {
-	  dispatch({ type: _types.SHRNK_LINK_SUBMIT_SUCCESS, payload: shortenedLink });
-	};
-
-	var invalidLink = exports.invalidLink = function invalidLink() {
-	  return function (dispatch) {
-	    dispatch({ type: _types.SHRNK_LINK_INVALID, payload: 'The link you want to shorten is invalid.' });
-	  };
-	};
 
 /***/ }
 /******/ ]);

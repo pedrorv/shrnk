@@ -33,8 +33,11 @@ class LinkShortener extends Component {
   }
 
   renderShortenedLink() {
-    if (this.props.shortenedLink) {
-      let link = "http://localhost:8080/shrtr/" + this.props.shortenedLink.id
+    const { shortenedLink } = this.props
+
+    if (shortenedLink) {
+      const { origin, pathname } = window.location
+      let link = origin + pathname + (pathname[pathname.length - 1] === '/' ? shortenedLink.id : '/' + shortenedLink.id)
       return <LinkCopy link={link} />
     }
 
