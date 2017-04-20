@@ -29706,7 +29706,7 @@
 	          },
 	          _react2.default.createElement('input', {
 	            type: 'text',
-	            placeholder: 'Enter the link you want to shorten',
+	            placeholder: 'Enter the link you want to shrink',
 	            ref: 'link',
 	            required: true,
 	            className: 'link'
