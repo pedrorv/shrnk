@@ -1,8 +1,8 @@
 {
-  "name": "shrtr",
+  "name": "shrnk",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/pedrorv/shrtr.git",
+  "repository": "https://github.com/pedrorv/shrnk.git",
   "author": "Pedro Reis <pedroreisv@gmail.com>",
   "license": "MIT",
   "dependencies": {
