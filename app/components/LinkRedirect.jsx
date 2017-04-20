@@ -25,7 +25,7 @@ class LinkRedirect extends Component {
     const { loading, linkInfo } = this.state
 
     if (loading) {
-      return <p>Loading...</p>
+      return <p className="button is-loading" style={{ border: 'none' }}>Loading...</p>
     }
 
     if (linkInfo) {

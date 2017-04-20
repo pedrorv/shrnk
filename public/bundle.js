@@ -29579,7 +29579,8 @@
 
 	var styles = {
 	  divStyles: {
-	    textAlign: 'center'
+	    textAlign: 'center',
+	    marginBottom: '10px'
 	  },
 	  h1Styles: {
 	    fontSize: '5rem'
@@ -30074,7 +30075,7 @@
 	var NotFound = function NotFound(props) {
 	    return _react2.default.createElement(
 	        'div',
-	        { style: { marginTop: '10px', textAlign: 'center' } },
+	        { style: { textAlign: 'center' } },
 	        _react2.default.createElement(
 	            'p',
 	            null,
@@ -30163,7 +30164,7 @@
 	      if (loading) {
 	        return _react2.default.createElement(
 	          'p',
-	          null,
+	          { className: 'button is-loading', style: { border: 'none' } },
 	          'Loading...'
 	        );
 	      }
