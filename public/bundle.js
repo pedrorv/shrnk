@@ -29620,6 +29620,10 @@
 
 	var _LinkCopy2 = _interopRequireDefault(_LinkCopy);
 
+	var _ErrorMessage = __webpack_require__(313);
+
+	var _ErrorMessage2 = _interopRequireDefault(_ErrorMessage);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -29683,15 +29687,7 @@
 	    value: function renderError() {
 	      if (!this.props.error) return null;
 
-	      return _react2.default.createElement(
-	        'article',
-	        { className: 'message is-danger' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'message-body' },
-	          this.props.error
-	        )
-	      );
+	      return _react2.default.createElement(_ErrorMessage2.default, { error: this.props.error });
 	    }
 	  }, {
 	    key: 'render',
@@ -30625,6 +30621,36 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
+
+/***/ },
+/* 313 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var ErrorMessage = function ErrorMessage(props) {
+	  return _react2.default.createElement(
+	    "article",
+	    { className: "message is-danger" },
+	    _react2.default.createElement(
+	      "div",
+	      { className: "message-body" },
+	      props.error
+	    )
+	  );
+	};
+
+	exports.default = ErrorMessage;
 
 /***/ }
 /******/ ]);

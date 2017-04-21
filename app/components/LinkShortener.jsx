@@ -6,6 +6,7 @@ import { shortenLink, invalidLink } from '../actions/shrnkActions'
 import { isLinkValid } from '../utils'
 
 import LinkCopy from 'LinkCopy'
+import ErrorMessage from 'ErrorMessage'
 
 class LinkShortener extends Component {
   handleSubmit(e) {
@@ -18,7 +19,7 @@ class LinkShortener extends Component {
       this.props.invalidLink()
     }
 
-    
+
   }
 
   renderButton() {
@@ -47,13 +48,7 @@ class LinkShortener extends Component {
   renderError() {
     if (!this.props.error) return null
     
-    return (
-      <article className="message is-danger">
-        <div className="message-body">
-          {this.props.error}
-        </div>
-      </article>
-    )
+    return <ErrorMessage error={this.props.error} />
   }
 
   render() {
