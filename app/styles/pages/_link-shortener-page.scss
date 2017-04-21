@@ -3,7 +3,7 @@ div.container {
   flex: 1;
   flex-direction: column;
   flex-grow: 1;
-  max-width: 500px;
+  max-width: 900px;
   width: 90%;
 
   form {
@@ -11,12 +11,9 @@ div.container {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-family: monospace, sans-serif;
-    font-size: 1.5rem;
     padding: 5px;
 
     input, button {
-      font-family: monospace, sans-serif;
       font-size: 1.5rem;
       padding: 5px;
     }
@@ -26,7 +23,6 @@ div.container {
       background: #09A8A3;
       border: none;
       color: #fff;
-      font-weight: bold;
       margin-top: 10px;
       padding: 10px 30px; 
       transition: transform 0.3s ease, background-color 0.3s ease;

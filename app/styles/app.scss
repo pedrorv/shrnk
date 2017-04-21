@@ -5,9 +5,7 @@ html {
   font-size: 10px;
 }
 
-body, button, input, select, textarea {
-  font-family: 'monospace', 'sans-serif';
-}
+@import 'base/fonts';
 
 @import 'pages/link-shortener-page';
 @import 'components/error-message';
