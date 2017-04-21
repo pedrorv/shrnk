@@ -31,13 +31,13 @@ div.container {
       padding: 10px 30px; 
       transition: transform 0.3s ease, background-color 0.3s ease;
 
+      &:hover {
+        background-color: darken(#09A8A3, 5%);
+      }
+
       &:active {
         background-color: darken(#09A8A3, 20%);
         transform: scale(0.9);
-      }
-
-      &:hover {
-        background-color: darken(#09A8A3, 5%);
       }
 
       &.is-loading:after {
