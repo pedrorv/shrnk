@@ -5,6 +5,7 @@ div.container {
   flex-grow: 1;
   max-width: 900px;
   width: 90%;
+  margin-top: 20px;
 
   form {
     display: flex;
@@ -16,11 +17,12 @@ div.container {
     input, button {
       font-size: 1.5rem;
       padding: 10px;
+      line-height: 1em;
     }
   
     button.button {
       align-self: center;
-      background: #09A8A3;
+      background: $purple;
       border: none;
       color: #fff;
       margin-top: 25px;
@@ -28,11 +30,11 @@ div.container {
       transition: transform 0.3s ease, background-color 0.3s ease;
 
       &:hover {
-        background-color: darken(#09A8A3, 5%);
+        background-color: darken($purple, 5%);
       }
 
       &:active {
-        background-color: darken(#09A8A3, 20%);
+        background-color: darken($purple, 20%);
         transform: scale(0.9);
       }
 
@@ -42,22 +44,18 @@ div.container {
     }
 
     input.link {
-      transition: transform 0.3s cubic-bezier(.25,.8,.25,1),
-                  box-shadow 0.3s cubic-bezier(.25,.8,.25,1);
+      transition: all 0.3s cubic-bezier(.25,.8,.25,1);
       width: 100%;
       text-align: center;
       border: none;
-      box-shadow: 0 0 2px $purple-grey;
+      box-shadow: 0 1px 2px $purple-grey;
+      color: $purple-grey;
 
       &:focus, &:active {
         transform: scale(1.1);
         box-shadow: 0px 1px 5px #ccc;
         border: none;
       }
-    }
-
-    input.copy-link {
-      width: 100%;
     }
   }
 }

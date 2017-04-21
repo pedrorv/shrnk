@@ -1,0 +1,52 @@
+div.container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  flex-grow: 1;
+  max-width: 900px;
+  width: 90%;
+  margin-top: 20px;
+  text-align: center;
+
+  p.copy-link, button {
+    font-size: 1.5rem;
+    padding: 10px;
+    line-height: 1em;
+  }
+
+  h3.copy-message {
+    margin-top: 20px;
+    font-size: 1.4rem;
+  }
+
+  div.copy-link-box {
+    display: flex;
+    margin-top: 10px;
+    justify-content: center;
+  }
+
+  p.copy-link {
+    box-shadow: 0 1px 2px $purple-grey;
+    color: $dark-grey;
+  }
+
+  button.button {
+    align-self: center;
+    background: $purple;
+    border: none;
+    color: #fff;
+    margin-top: 25px;
+    padding: 10px 30px; 
+    transition: transform 0.3s ease, background-color 0.3s ease;
+
+    &:hover {
+      background-color: darken($purple, 5%);
+    }
+
+    &:active {
+      background-color: darken($purple, 20%);
+      transform: scale(0.9);
+    }
+  }
+
+}

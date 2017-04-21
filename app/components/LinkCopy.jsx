@@ -9,9 +9,7 @@ class LinkCopy extends Component {
     this.state = { copyButton: this.initialState.copyButton }
   }
 
-  handleCopyLink(e) {
-    e.preventDefault()
-
+  handleCopyLink() {
     if (this.linkHaveNotBeenCopied()) {
       this.copyLinkToClipboard()
       this.setState({ copyButton: 'Copied!' })
@@ -36,21 +34,24 @@ class LinkCopy extends Component {
   render() {
     return (
       <div className="container">
-        <form onSubmit={this.handleCopyLink.bind(this)}>
-          <input
-            id="generated-link"
-            className="copy-link"
-            type="text"
-            value={this.props.link}
-            readOnly
-          />
-          <button
-            className="button"
-            type="submit"
-          >
-            {this.state.copyButton}
-          </button>
-        </form>
+        <input
+          id="generated-link"
+          className="copy-link"
+          type="text"
+          value={this.props.link}
+          style={{ position: 'absolute', top: 0, left: '-9999px' }}
+          readOnly
+        />
+        <h3 className="copy-message">Your shortened link is:</h3>
+        <div className="copy-link-box">
+          <p className="copy-link">{this.props.link}</p>
+        </div>
+        <button
+          className="button"
+          onClick={this.handleCopyLink.bind(this)}
+        >
+          {this.state.copyButton}
+        </button>
       </div>
     )
   }

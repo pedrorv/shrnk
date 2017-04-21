@@ -11,10 +11,13 @@ html {
   border-color:transparent;
 }
 
-@import 'base/fonts';
+
 @import 'base/colors';
 
-@import 'pages/link-shortener-page';
+@import 'base/fonts';
+
 
 @import 'components/error-message';
 @import 'components/header';
+@import 'components/link-copy';
+@import 'components/link-shortener';
