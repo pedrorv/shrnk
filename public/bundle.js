@@ -29719,10 +29719,10 @@
 	}(_react.Component);
 
 	var mapStateToProps = function mapStateToProps(state) {
-	  var _state$shrtr = state.shrtr,
-	      error = _state$shrtr.error,
-	      loading = _state$shrtr.loading,
-	      shortenedLink = _state$shrtr.shortenedLink;
+	  var _state$shrnk = state.shrnk,
+	      error = _state$shrnk.error,
+	      loading = _state$shrnk.loading,
+	      shortenedLink = _state$shrnk.shortenedLink;
 
 
 	  return { error: error, loading: loading, shortenedLink: shortenedLink };
@@ -30233,7 +30233,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = (0, _redux.combineReducers)({
-	  shrtr: _shrnkReducer2.default
+	  shrnk: _shrnkReducer2.default
 	});
 
 /***/ },

@@ -18,8 +18,6 @@ class LinkShortener extends Component {
     } else {
       this.props.invalidLink()
     }
-
-
   }
 
   renderButton() {
@@ -75,7 +73,7 @@ class LinkShortener extends Component {
 
 
 const mapStateToProps = (state) => {
-  const { error, loading, shortenedLink } = state.shrtr
+  const { error, loading, shortenedLink } = state.shrnk
 
   return { error, loading, shortenedLink }
 }
