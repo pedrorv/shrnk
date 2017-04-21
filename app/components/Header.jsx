@@ -1,26 +1,14 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router'
 
 class Header extends Component {
   render() {
     return (
-      <div style={styles.divStyles}>
-        <h1 style={styles.h1Styles}>shrnk</h1>
-        <h3 style={styles.h3Styles}>URL shortener</h3>
+      <div className="header-container">
+        <Link to={'/shrnk'}><h1>shrnk</h1></Link>
+        <h3>URL shortener</h3>
       </div>
     )
-  }
-}
-
-const styles = {
-  divStyles: {
-    textAlign: 'center',
-    marginBottom: '10px'
-  },
-  h1Styles: {
-    fontSize: '5rem'
-  },
-  h3Styles: {
-    fontSize: '1.2rem'
   }
 }
 
