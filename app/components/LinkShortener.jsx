@@ -57,7 +57,7 @@ class LinkShortener extends Component {
         >
             <input 
               type="text" 
-              placeholder="Enter the link you want to shrink"
+              placeholder="Paste your link here"
               ref="link"
               required
               className="link"
