@@ -5,6 +5,12 @@ html {
   font-size: 10px;
 }
 
+*:focus {
+  outline-style:none;
+  box-shadow:none;
+  border-color:transparent;
+}
+
 @import 'base/fonts';
 @import 'base/colors';
 
