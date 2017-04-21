@@ -72,15 +72,15 @@
 
 	var _LinkShortener2 = _interopRequireDefault(_LinkShortener);
 
-	var _NotFound = __webpack_require__(285);
+	var _NotFound = __webpack_require__(305);
 
 	var _NotFound2 = _interopRequireDefault(_NotFound);
 
-	var _LinkRedirect = __webpack_require__(286);
+	var _LinkRedirect = __webpack_require__(306);
 
 	var _LinkRedirect2 = _interopRequireDefault(_LinkRedirect);
 
-	var _reducers = __webpack_require__(287);
+	var _reducers = __webpack_require__(307);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -88,7 +88,7 @@
 
 	var store = (0, _redux.createStore)(_reducers2.default, {}, (0, _redux.applyMiddleware)(_reduxThunk2.default));
 
-	__webpack_require__(289);
+	__webpack_require__(309);
 
 	_reactDom2.default.render(_react2.default.createElement(
 	  _reactRedux.Provider,
@@ -29612,11 +29612,11 @@
 
 	var _reactRedux = __webpack_require__(254);
 
-	var _shrnkActions = __webpack_require__(279);
+	var _shrnkActions = __webpack_require__(299);
 
-	var _utils = __webpack_require__(282);
+	var _utils = __webpack_require__(302);
 
-	var _LinkCopy = __webpack_require__(284);
+	var _LinkCopy = __webpack_require__(304);
 
 	var _LinkCopy2 = _interopRequireDefault(_LinkCopy);
 
@@ -29738,7 +29738,27 @@
 	})(LinkShortener);
 
 /***/ },
-/* 279 */
+/* 279 */,
+/* 280 */,
+/* 281 */,
+/* 282 */,
+/* 283 */,
+/* 284 */,
+/* 285 */,
+/* 286 */,
+/* 287 */,
+/* 288 */,
+/* 289 */,
+/* 290 */,
+/* 291 */,
+/* 292 */,
+/* 293 */,
+/* 294 */,
+/* 295 */,
+/* 296 */,
+/* 297 */,
+/* 298 */,
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29748,13 +29768,13 @@
 	});
 	exports.invalidLink = exports.shortenLink = undefined;
 
-	var _types = __webpack_require__(280);
+	var _types = __webpack_require__(300);
 
 	var _firebase = __webpack_require__(271);
 
 	var _firebase2 = _interopRequireDefault(_firebase);
 
-	var _api = __webpack_require__(281);
+	var _api = __webpack_require__(301);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29785,7 +29805,7 @@
 	};
 
 /***/ },
-/* 280 */
+/* 300 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -29799,7 +29819,7 @@
 	var SHRNK_LINK_INVALID = exports.SHRNK_LINK_INVALID = 'SHRNK_LINK_INVALID';
 
 /***/ },
-/* 281 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29813,7 +29833,7 @@
 
 	var _firebase2 = _interopRequireDefault(_firebase);
 
-	var _utils = __webpack_require__(282);
+	var _utils = __webpack_require__(302);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29864,7 +29884,7 @@
 	};
 
 /***/ },
-/* 282 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29874,7 +29894,7 @@
 	});
 	exports.isLinkValid = exports.redirectTo = exports.formatLink = exports.generateID = undefined;
 
-	var _uid = __webpack_require__(283);
+	var _uid = __webpack_require__(303);
 
 	var _uid2 = _interopRequireDefault(_uid);
 
@@ -29930,7 +29950,7 @@
 	};
 
 /***/ },
-/* 283 */
+/* 303 */
 /***/ function(module, exports) {
 
 	/**
@@ -29953,7 +29973,7 @@
 
 
 /***/ },
-/* 284 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30055,7 +30075,7 @@
 	exports.default = LinkCopy;
 
 /***/ },
-/* 285 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30096,7 +30116,7 @@
 	exports.default = NotFound;
 
 /***/ },
-/* 286 */
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30117,9 +30137,9 @@
 
 	var _reactRouter = __webpack_require__(178);
 
-	var _api = __webpack_require__(281);
+	var _api = __webpack_require__(301);
 
-	var _utils = __webpack_require__(282);
+	var _utils = __webpack_require__(302);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30199,7 +30219,7 @@
 	exports.default = LinkRedirect;
 
 /***/ },
-/* 287 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30210,7 +30230,7 @@
 
 	var _redux = __webpack_require__(233);
 
-	var _shrnkReducer = __webpack_require__(288);
+	var _shrnkReducer = __webpack_require__(308);
 
 	var _shrnkReducer2 = _interopRequireDefault(_shrnkReducer);
 
@@ -30221,7 +30241,7 @@
 	});
 
 /***/ },
-/* 288 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30232,7 +30252,7 @@
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _types = __webpack_require__(280);
+	var _types = __webpack_require__(300);
 
 	var INITIAL_STATE = {
 	  error: '',
@@ -30259,16 +30279,16 @@
 	};
 
 /***/ },
-/* 289 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(290);
+	var content = __webpack_require__(310);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(292)(content, {});
+	var update = __webpack_require__(312)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -30285,10 +30305,10 @@
 	}
 
 /***/ },
-/* 290 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(291)();
+	exports = module.exports = __webpack_require__(311)();
 	// imports
 
 
@@ -30299,7 +30319,7 @@
 
 
 /***/ },
-/* 291 */
+/* 311 */
 /***/ function(module, exports) {
 
 	/*
@@ -30355,7 +30375,7 @@
 
 
 /***/ },
-/* 292 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
