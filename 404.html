@@ -2,8 +2,10 @@
 <html lang="en">
 <head>
   <script>
-    console.log(JSON.stringify(location, null, 2));
-    sessionStorage.redirect = location.href;
+    //console.log(JSON.stringify(location, null, 2));
+    //sessionStorage.redirect = location.href;
+    sessionStorage.redirect = 
+      location.hostname + location.pathname
   </script>
   <meta http-equiv="refresh" content="0;URL='/shrnk'"></meta>
   <title>Shrnk</title>
