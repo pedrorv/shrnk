@@ -37,15 +37,15 @@ export const getLoggedUser = () => {
   return firebase.auth().signInAnonymously()
 }
 
-export const shrnkLink = (link) => shrnkLinkDI(getLoggedUser, link)
+export const shrnkLink = (link) => shrnkLinkImplementation(getLoggedUser, generateID, link)
 
-export const shrnkLinkDI = (returnUserFromPromise, link) => {
+export const shrnkLinkImplementation = (returnUserFromPromise, uidGenerator, link) => {
   return returnUserFromPromise()
     .then(user => {
       const linksRef = firebase.database().ref('links')
 
       const newLink = {
-        id: generateID(6),
+        id: uidGenerator(6),
         link: link.toLowerCase(),
         access_count: 0,
         user: user.uid

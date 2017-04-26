@@ -2,7 +2,16 @@ import firebase from 'firebase'
 import { expect } from 'chai'
 const should = require('chai').should()
 
-import { getLoggedUser, getLinkDataFromId, updateLinkAccessCountFromKey } from '../../app/api'
+import { 
+  getLinkDataFromId, 
+  getLoggedUser, 
+  shrnkLinkImplementation,
+  updateLinkAccessCountFromKey 
+} from '../../app/api'
+
+import {
+  generateID
+} from '../../app/utils'
 
 const testingObjectID = '123456'
 
@@ -90,6 +99,28 @@ describe('API', () => {
           should.exist(error)
           done()
         })
+    })
+  })
+
+  describe('shrnkLinkImplementation', () => {
+    it('should return a link object', (done) => {
+      const userUid = 'test_user'
+      const linkUid = generateID(6)
+      const linkUrl = 'test.com'
+
+      const getUser = () => Promise.resolve({ uid: userUid })
+      const genUid = () => linkUid
+
+      shrnkLinkImplementation(getUser, genUid, linkUrl)
+        .then(link => {
+          expect(link).to.be.a('object')
+          expect(link.access_count).to.equal(0)
+          expect(link.id).to.equal(linkUid)
+          expect(link.link).to.equal(linkUrl)
+          expect(link.user).to.equal(userUid)
+          done()
+        })
+        .catch(done)
     })
   })
 })
