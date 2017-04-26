@@ -37,20 +37,21 @@ export const getLoggedUser = () => {
   return firebase.auth().signInAnonymously()
 }
 
-export const shrnkLink = (link) => {
-  
-  return getLoggedUser()
-          .then(user => {
-            const linksRef = firebase.database().ref('links')
+export const shrnkLink = (link) => shrnkLinkDI(getLoggedUser, link)
 
-            const newLink = {
-              id: generateID(6),
-              link: link.toLowerCase(),
-              access_count: 0,
-              user: user.uid
-            }
+export const shrnkLinkDI = (returnUserFromPromise, link) => {
+  return returnUserFromPromise()
+    .then(user => {
+      const linksRef = firebase.database().ref('links')
 
-            return linksRef.push(newLink)
-                    .then(() => newLink)
-          })
+      const newLink = {
+        id: generateID(6),
+        link: link.toLowerCase(),
+        access_count: 0,
+        user: user.uid
+      }
+
+      return linksRef.push(newLink)
+              .then(() => newLink)
+    })
 }
