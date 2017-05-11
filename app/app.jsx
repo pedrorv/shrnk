@@ -5,10 +5,10 @@ import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import ReduxThunk from 'redux-thunk'
 
-import Main from 'Main'
-import LinkShortener from 'LinkShortener'
-import NotFound from 'NotFound'
-import LinkRedirect from 'LinkRedirect'
+import Main from './components/Main'
+import LinkShortener from './components/LinkShortener'
+import NotFound from './components/NotFound'
+import LinkRedirect from './components/LinkRedirect'
 
 import reducers from './reducers'
 

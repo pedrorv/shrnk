@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import firebase from 'firebase'
 
-import Header from 'Header'
+import Header from './Header'
 
 class Main extends Component {
     componentWillMount() {

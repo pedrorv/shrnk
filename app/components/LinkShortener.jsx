@@ -5,8 +5,8 @@ import { connect } from 'react-redux'
 import { shortenLink, invalidLink } from '../actions/shrnkActions'
 import { isLinkValid } from '../utils'
 
-import LinkCopy from 'LinkCopy'
-import ErrorMessage from 'ErrorMessage'
+import LinkCopy from './LinkCopy'
+import ErrorMessage from './ErrorMessage'
 
 class LinkShortener extends Component {
   handleSubmit(e) {
