@@ -18,4 +18,9 @@ describe('<ErrorMessage />', () => {
     expect(wrapper.find('div.message-body').text()).to.be.equal(errorMessage)
   })
 
+  it('should render component without an error message', () => {
+    const wrapper = shallow(<ErrorMessage />)
+    expect(wrapper.find('div.message-body').text()).to.be.equal('')
+  })
+
 })
