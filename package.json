@@ -30,7 +30,6 @@
     "enzyme": "^2.8.2",
     "express": "^4.15.2",
     "file-loader": "^0.10.0",
-    "jsdom": "^10.1.0",
     "mocha": "^3.2.0",
     "node-sass": "^4.4.0",
     "react-addons-test-utils": "^15.5.1",
